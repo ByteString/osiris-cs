@@ -2,9 +2,9 @@ string strength;
 float stuntime;
 key target; // AV key of the in range target  
 integer movewhiledead;  
-string secureKey="";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey = "";
+string myKey = "yCk5SZIxjcYtSzbHormFS2H2Kdc=";
 string randCheck;
 key me; // key of the owner of the meter
 string myName; // name of the owner of the meter
@@ -21,7 +21,7 @@ setRandCheck() {
     randCheck=(string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);
 }
 createSecurePass() {
-  securePass="";   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str) {
     return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));
@@ -44,8 +44,8 @@ receiveChallenge(string msg){
 //////////////////// end authentication /////////////////////////
 
 SetAPICMD(string str) {
-	APIFlag=1;
-	APICmd=llCSV2List(str);
+    APIFlag=1;
+    APICmd=llCSV2List(str);
 }
 setStatus(integer num){status = num;}
 
@@ -54,7 +54,7 @@ startup(){
     myName=llKey2Name(me);
     integer perms;
     perms = llGetPermissions();
-	numbers=llListRandomize(numbers, 1);
+    numbers=llListRandomize(numbers, 1);
     if (perms & PERMISSION_TAKE_CONTROLS) {
         doTakeControls();
         llSetTimerEvent(0.0);
@@ -137,56 +137,56 @@ default {
         }
     }
     sensor(integer num) {
-    	if (attackstatus==1) {
-    		
-	        integer i;
-	            for ((i = 0); (i < num); ++i) {
-	                if ((llDetectedType(i) & AGENT)) {
-	                    llMessageLinked(LINK_THIS,9997,((((string)llDetectedKey(0)) + "|m||") + strength),NULL_KEY); //9997 - melee fighting system announcements
-						if (APIFlag==1 && llGetUnixTime() > APITimer) {
-							numCheck++;
-							if (numCheck >= llGetListLength(numbers)) {numCheck=0; numbers=llListRandomize(numbers, 1);}
-							//llOwnerSay((string)llList2Integer(numbers, numCheck));
-							if (llList2Integer(numbers, numCheck)==1) {
-								
-								APITimer=llGetUnixTime()+2;
-								if (llList2String(APICmd, 3) != "NULL") {
-									string say = str_replace(llList2String(APICmd, 3),"%a",myName);
-	    							say = str_replace(say,"%d",llKey2Name(llDetectedKey(0)));
-	    							llSay(0,say);								
-								}
-								if (llList2String(APICmd, 5) != "0") {
-									llMessageLinked(LINK_SET,10,llList2String(APICmd, 5) + "|" + llList2String(APICmd, 6),NULL_KEY);
-								}
-								string hit = (string)llDetectedKey(0) + "|P||2|-20|15|0|0|0|0|NULL|" + llList2String(APICmd, 7) + "|" + llList2String(APICmd, 8) + "|0|" + llList2String(APICmd, 4) + "|API|D^" + (string)llGetOwner();
-								llMessageLinked(-4,6,hit,llDetectedKey(0));
-								
-								
-								
-							}
-						}
-	                }
-	            }
-	            attackstatus=0;
-	            llSetTimerEvent(0.2);
-    	}
+        if (attackstatus==1) {
+            
+            integer i;
+                for ((i = 0); (i < num); ++i) {
+                    if ((llDetectedType(i) & AGENT)) {
+                        llMessageLinked(LINK_THIS,9997,((((string)llDetectedKey(0)) + "|m||") + strength),NULL_KEY); //9997 - melee fighting system announcements
+                        if (APIFlag==1 && llGetUnixTime() > APITimer) {
+                            numCheck++;
+                            if (numCheck >= llGetListLength(numbers)) {numCheck=0; numbers=llListRandomize(numbers, 1);}
+                            //llOwnerSay((string)llList2Integer(numbers, numCheck));
+                            if (llList2Integer(numbers, numCheck)==1) {
+                                
+                                APITimer=llGetUnixTime()+2;
+                                if (llList2String(APICmd, 3) != "NULL") {
+                                    string say = str_replace(llList2String(APICmd, 3),"%a",myName);
+                                    say = str_replace(say,"%d",llKey2Name(llDetectedKey(0)));
+                                    llSay(0,say);                                
+                                }
+                                if (llList2String(APICmd, 5) != "0") {
+                                    llMessageLinked(LINK_SET,10,llList2String(APICmd, 5) + "|" + llList2String(APICmd, 6),NULL_KEY);
+                                }
+                                string hit = (string)llDetectedKey(0) + "|P||2|-20|15|0|0|0|0|NULL|" + llList2String(APICmd, 7) + "|" + llList2String(APICmd, 8) + "|0|" + llList2String(APICmd, 4) + "|API|D^" + (string)llGetOwner();
+                                llMessageLinked(-4,6,hit,llDetectedKey(0));
+                                
+                                
+                                
+                            }
+                        }
+                    }
+                }
+                attackstatus=0;
+                llSetTimerEvent(0.2);
+        }
     }
     timer() {
         attackstatus=1;
     }
     link_message(integer sender_num,integer num,string str,key id) {
         if (num == 7) { // 7 - status messages from main (i.e. wounded, noncombative, whatever)
-        	setStatus((integer)str);
+            setStatus((integer)str);
             if (((((integer)str) == 5) && (movewhiledead == 0))) state dead;
         } else  if (num == 1) { // 1 - messages from dataloader
             if (left(str,"|") == "MOVEWHILEDEAD") {
                 setParam(left(str,"|"),right(str,"|"));
             }
         } else if (num==7500) { //7500 is an incoming API weapon
-        	SetAPICMD(str);
+            SetAPICMD(str);
         } else if (num==7501) { //7501 clears API
-        	APIFlag=0;
-        	APICmd=[];
+            APIFlag=0;
+            APICmd=[];
         } else if (num==6300) { //6300 - statistics announcements
             if ((left(str,"|") == "S")) {
                 setStrength(right(str,"|"));
@@ -195,11 +195,11 @@ default {
         else if (num==9955) {
             setstuntime((float)str);
             state stunned;
-		}
-		else if (num==9936) {
-			setstuntime(0);
-			state meditate;	
-		}
+        }
+        else if (num==9936) {
+            setstuntime(0);
+            state meditate;    
+        }
     }
 }
 state dead {
@@ -216,9 +216,9 @@ state stunned
 {
     state_entry()
     {
-    	deadControls();
+        deadControls();
         if (stuntime==0) {stuntime=1;}
-		if (stuntime>20) {stuntime=20;}
+        if (stuntime>20) {stuntime=20;}
         llSetTimerEvent(stuntime);
     }
     timer()
@@ -228,20 +228,20 @@ state stunned
     }
 }
 state meditate {
-	// need to finish this... on incoming linked message from skills, will
-	// go to this state, must exit it on second linked msg
-	state_entry()
+    // need to finish this... on incoming linked message from skills, will
+    // go to this state, must exit it on second linked msg
+    state_entry()
     {
-    	deadControls();
+        deadControls();
     }
     timer()
     {
     setstuntime(0);
     }
     link_message(integer sender_num,integer num,string str,key id) {
-    	if (num==9937) {
-			setstuntime(0);
-			state default;	
-		}
+        if (num==9937) {
+            setstuntime(0);
+            state default;    
+        }
     }
 }

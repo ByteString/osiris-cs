@@ -38,21 +38,21 @@ string myName="NULL";
 string rpname;
 integer targetID;
 integer status;
-string secureKey = "";
+string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey = "";
+string myKey = "occnHMhxtTV78yxPnzSIF4bTb9o=";
 string randCheck;
-string 	strength;
-string 	intelligence;
-string 	constitution;
-string 	dexterity;
-string 	wisdom;
+string     strength;
+string     intelligence;
+string     constitution;
+string     dexterity;
+string     wisdom;
 integer lastskilltime;
 setRandCheck(){
     (randCheck = (((string)llFrand(1.410065407e9)) + ((string)llFrand(1.410065407e9))));
 }
 createSecurePass(){
-    securePass = "";
+    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 
 string cryptPass(string str){
@@ -108,21 +108,21 @@ setSP(integer s){
     special = s;
 }
 tickSP(integer s){
-	special = special + SP_REGEN;
-	if (special > SP_BASE) {
-		special = SP_BASE;
-	}
+    special = special + SP_REGEN;
+    if (special > SP_BASE) {
+        special = SP_BASE;
+    }
 }
 setHealth(integer s) {
     (health = s);    
 }
 setMaxHealth(integer s) {
-	(maxhealth = s);
-	//llOwnerSay("maxhealth: " + (string)maxhealth);	
+    (maxhealth = s);
+    //llOwnerSay("maxhealth: " + (string)maxhealth);    
 }
 changeHealth(integer amount)
 {
-	health=health+amount;	
+    health=health+amount;    
 }
 setSpecialType(string s){
     (SPECIAL_TYPE = s);
@@ -203,11 +203,11 @@ setName(key o){
     (myName = llKey2Name(o));
 }
 string currName() {
-	if (rpname == "NULL" | rpname == "") {
-		return myName;
-	} else { 
-		return rpname + " (" + myName + ")";
-	}
+    if (rpname == "NULL" | rpname == "") {
+        return myName;
+    } else { 
+        return rpname + " (" + myName + ")";
+    }
 }
 playSound(integer s){
     key sound;
@@ -332,20 +332,20 @@ integer checkPool(){
     else  return 0;
 }
 string setCMD(){
-	if (SOFF=="S") SOFF=strength;
-	else if (SOFF=="I") SOFF=intelligence;
-	else if (SOFF=="W") SOFF=wisdom;
-	else if (SOFF=="C") SOFF=constitution;
-	else if (SOFF=="D") SOFF=dexterity;
+    if (SOFF=="S") SOFF=strength;
+    else if (SOFF=="I") SOFF=intelligence;
+    else if (SOFF=="W") SOFF=wisdom;
+    else if (SOFF=="C") SOFF=constitution;
+    else if (SOFF=="D") SOFF=dexterity;
     string newCMD = (string)target + "|A||" + (string)STYPE + "|" + (string)DMG + "|" + (string)RANGE + "|" + (string)RDYCONSENT + "|" + STAT + "|" + (string)STATAMT + "|" + (string)STATDUR + "|" + (string)VANIM + "|" + (string)VPART + "|" + (string)VPARTDUR + "|" + (string)VSND + "|" + VSAY + "|" + SNAME + "|ALL|" + SDEF + "|" + SOFF + "^" + (string)llGetOwner();
     return newCMD;
 }
 string setCMDatTarget(key x){
-	if (SOFF=="S") SOFF=strength;
-	else if (SOFF=="I") SOFF=intelligence;
-	else if (SOFF=="W") SOFF=wisdom;
-	else if (SOFF=="C") SOFF=constitution;
-	else if (SOFF=="D") SOFF=dexterity;
+    if (SOFF=="S") SOFF=strength;
+    else if (SOFF=="I") SOFF=intelligence;
+    else if (SOFF=="W") SOFF=wisdom;
+    else if (SOFF=="C") SOFF=constitution;
+    else if (SOFF=="D") SOFF=dexterity;
     string newCMD = (string)x + "|A||" + (string)STYPE + "|" + (string)DMG + "|" + (string)RANGE + "|" + (string)RDYCONSENT + "|" + STAT + "|" + (string)STATAMT + "|" + (string)STATDUR + "|" + (string)VANIM + "|" + (string)VPART + "|" + (string)VPARTDUR + "|" + (string)VSND + "|" + VSAY + "|" + SNAME + "|ALL|" + SDEF + "|" + SOFF + "^" + (string)llGetOwner();
     return newCMD;
 }
@@ -382,46 +382,46 @@ default {
             setStatus(((integer)str));
         }
         else if (num == 9940) {
-        	if (lastskilltime < llGetUnixTime()) { 
-        	lastskilltime = llGetUnixTime()+1;
+            if (lastskilltime < llGetUnixTime()) { 
+            lastskilltime = llGetUnixTime()+1;
             setSkill(str);
             setTarget(id);
             if (STYPE == 12) state revive;
             else if (status==0) {
-            	if ((STYPE == 1)) state rp;
-	            else if (((STYPE > 1) && (STYPE < 4))) state heal;
-	            else if ((STYPE == 5)) state heal;
-	            else if ((STYPE == 6)) state ae;
-	            else if ((STYPE == 7)) state feed;
-	            else if ((STYPE == 8)) state heal;
-	            else if ((STYPE == 10)) state ae;
-	            else if ((STYPE == 11)) state regen;
-	            else if ((STYPE == 13)) state reflect;
-	            else if ((STYPE == 14)) state reflect;
-	            else if ((STYPE == 15)) state heal;
-	            else if ((STYPE == 16)) state meditate;
-	            else if ((STYPE == 17)) state detect; // not impelemented yet
-	            else if ((STYPE == 19)) state lockpick; // not implemented yet
-	            else if ((STYPE == 20)) state resistmagic; // not implemented yet
-	            else if ((STYPE == 21)) state reflect; // reflect magic
-	            else if ((STYPE == 22)) state heal; // stun
+                if ((STYPE == 1)) state rp;
+                else if (((STYPE > 1) && (STYPE < 4))) state heal;
+                else if ((STYPE == 5)) state heal;
+                else if ((STYPE == 6)) state ae;
+                else if ((STYPE == 7)) state feed;
+                else if ((STYPE == 8)) state heal;
+                else if ((STYPE == 10)) state ae;
+                else if ((STYPE == 11)) state regen;
+                else if ((STYPE == 13)) state reflect;
+                else if ((STYPE == 14)) state reflect;
+                else if ((STYPE == 15)) state heal;
+                else if ((STYPE == 16)) state meditate;
+                else if ((STYPE == 17)) state detect; // not impelemented yet
+                else if ((STYPE == 19)) state lockpick; // not implemented yet
+                else if ((STYPE == 20)) state resistmagic; // not implemented yet
+                else if ((STYPE == 21)) state reflect; // reflect magic
+                else if ((STYPE == 22)) state heal; // stun
             }
             }
         }
         else if (num==6300) {
-        	string param=left(str, "|");
-        	string value=right(str, "|");
-        	if (param=="S") strength=value;
-        	else if (param=="I") intelligence=value;
-        	else if (param=="W") wisdom=value;
-        	else if (param=="D") dexterity=value;
-        	else if (param=="C") constitution=value;
+            string param=left(str, "|");
+            string value=right(str, "|");
+            if (param=="S") strength=value;
+            else if (param=="I") intelligence=value;
+            else if (param=="W") wisdom=value;
+            else if (param=="D") dexterity=value;
+            else if (param=="C") constitution=value;
         }
         else if (num==9998) {
             setHealth((integer)str);
         }
         else if ((num == 9990)) {
-        	setMaxHealth((integer)str);	
+            setMaxHealth((integer)str);    
         }
         else if ((num == 9985)) {
             setStam(str);
@@ -439,7 +439,7 @@ default {
             receiveChallenge(str);
         }
         else if ((num == 1)) {
-        	string loadparam = left(str,"|");
+            string loadparam = left(str,"|");
             if (loadparam == "SPECIAL_TYPE") {
                 setSpecialType(right(str,"|"));
             } else if (loadparam == "SP_REGEN") {
@@ -447,7 +447,7 @@ default {
             } else if (loadparam == "SP_BASE")  {
                 SP_BASE=(integer)right(str, "|");
             } else if (loadparam == "RPNAME") {
-            	rpname = right(str,"|");
+                rpname = right(str,"|");
             }
         }
     }
@@ -508,19 +508,19 @@ state feed {
             llOwnerSay("This skill requires a target other than yourself.");
             state default;
         } else {
-        	vector targetPos = llList2Vector(llGetObjectDetails(target,[3]),0);
-        	vector myPos = llGetPos();
-        	if ((checkPool() != 1)) {
-            	state default;
-        	} else	if ((((integer)llVecDist(myPos,targetPos)) < RANGE)) {
-	            (targetID = llTarget(targetPos,4.0));
-            	llMoveToTarget(targetPos,0.2);
-        	}
-        	llSetTimerEvent(0.6);
+            vector targetPos = llList2Vector(llGetObjectDetails(target,[3]),0);
+            vector myPos = llGetPos();
+            if ((checkPool() != 1)) {
+                state default;
+            } else    if ((((integer)llVecDist(myPos,targetPos)) < RANGE)) {
+                (targetID = llTarget(targetPos,4.0));
+                llMoveToTarget(targetPos,0.2);
+            }
+            llSetTimerEvent(0.6);
         }
     }
     at_target(integer tnum,vector targetpos,vector ourpos) {
-    	llSetTimerEvent(0);
+        llSetTimerEvent(0);
         llMessageLinked(-4,6,setCMD(),target);
         llStopMoveToTarget();
         if ((SPECIAL_TYPE == "F")) {
@@ -545,29 +545,29 @@ state ae {
         if ((checkPool() != 1)) {
             state default;
         } else {
-        	doEmote();
-        	integer i;
-        	do  {
-	            vector targetPos = llDetectedPos(i);
-            	vector myPos = llGetPos();
-            	if ((((integer)llVecDist(myPos,targetPos)) < RANGE)) {
-	                llMessageLinked(-4,6,setCMDatTarget(llDetectedKey(i)),llDetectedKey(i));
-            	}
-            	++i;
-        	}
-        	while ((i < num_detected));
-        	state default;
+            doEmote();
+            integer i;
+            do  {
+                vector targetPos = llDetectedPos(i);
+                vector myPos = llGetPos();
+                if ((((integer)llVecDist(myPos,targetPos)) < RANGE)) {
+                    llMessageLinked(-4,6,setCMDatTarget(llDetectedKey(i)),llDetectedKey(i));
+                }
+                ++i;
+            }
+            while ((i < num_detected));
+            state default;
         }
     }
     no_sensor()
     {
-    	if ((checkPool() != 1)) {
-    		state default;	
-    	}
-    	else {
-    		llOwnerSay("No targets in range.");
-    		state default;	
-    	}
+        if ((checkPool() != 1)) {
+            state default;    
+        }
+        else {
+            llOwnerSay("No targets in range.");
+            state default;    
+        }
     }
 }
 state regen {
@@ -576,10 +576,10 @@ state regen {
         if ((stamina > POOLAMT)) {
             integer temp = stamina;
             do  {
-            	//llOwnerSay("health/maxhealth: " + (string)health + "/" + (string)maxhealth);
-            	if (health > maxhealth) {temp=0; health=maxhealth; state default;}
-            	if ((checkPool() != 1)) {state default;}
-            	if (stamina < 1) {temp=0; state default;}
+                //llOwnerSay("health/maxhealth: " + (string)health + "/" + (string)maxhealth);
+                if (health > maxhealth) {temp=0; health=maxhealth; state default;}
+                if ((checkPool() != 1)) {state default;}
+                if (stamina < 1) {temp=0; state default;}
                 llMessageLinked(-4,9931,((string)POOLAMT),NULL_KEY);
                 llMessageLinked(-4,9930,((string)DMG),NULL_KEY);
                 changeHealth(DMG);
@@ -601,7 +601,7 @@ state meditate {
     }
     timer()
     {
-    	 llMessageLinked(-4,9932,((string)1),NULL_KEY);
+         llMessageLinked(-4,9932,((string)1),NULL_KEY);
          setSP(special + 1);
     }
     link_message(integer sender_num,integer num,string str,key id) {
@@ -610,7 +610,7 @@ state meditate {
         } else if (num==9998) {
             setHealth((integer)str);
         } else if ((num == 9990)) {
-        	setMaxHealth((integer)str);	
+            setMaxHealth((integer)str);    
         } else if ((num == 9985)) {
             setStam(str);
         } else if ((num == 8000)) {
@@ -619,13 +619,13 @@ state meditate {
             setSkill(str);
             setTarget(id);
             if ((STYPE == 16)){
-            	 llSetTimerEvent(0.0);
-            	 if (SANIM != "NULL") {
-            	 	llStopAnimation(SANIM);
-            	 }
-            	 llMessageLinked(LINK_THIS, 9937,"",NULL_KEY);
-            	 state default;
-            	 }
+                 llSetTimerEvent(0.0);
+                 if (SANIM != "NULL") {
+                     llStopAnimation(SANIM);
+                 }
+                 llMessageLinked(LINK_THIS, 9937,"",NULL_KEY);
+                 state default;
+                 }
         }
     }
 }
@@ -639,7 +639,7 @@ state lockpick {
 }
 state resistmagic {
     state_entry() {
-    	if ((checkPool() != 1)) {
+        if ((checkPool() != 1)) {
             state default;
         }
         llMessageLinked(-4,6,setCMD(),me);

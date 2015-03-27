@@ -19,9 +19,9 @@ integer targetID; // used by the targeting system
 integer listener;
 integer reflectstate;
 integer reflectend;
-string secureKey="";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="";
+string myKey="qbhhpMn/LwlKmCcNeCFX8MQiQOY=";
 string hitType;
 string v_GRP; // this is the racial vulnerabilities group
 integer blockAOE; // is AOE API blocked in this sim?
@@ -36,22 +36,22 @@ integer tmpTime;
 // Function to divide to prevent math errors
 float d(float this, float with)
 {
-	if (this <= 0 || with <= 0)
-		return 0;
-	else
-		return this/with;
+    if (this <= 0 || with <= 0)
+        return 0;
+    else
+        return this/with;
 }
 integer di(integer this, integer with)
 {
-	if (this <= 0 || with <= 0)
-		return 0;
-	else
-		return this/with;
+    if (this <= 0 || with <= 0)
+        return 0;
+    else
+        return this/with;
 }
 
 createSecurePass()
 {
-  securePass="";   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str)
 {
@@ -87,7 +87,7 @@ setpass(string k)
 }
 string crypt(string str)
 {
-	return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(pass));
+    return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(pass));
 }
 string decrypt(string str)
 {
@@ -96,7 +96,7 @@ string decrypt(string str)
 // SET STATUS
 setStatus(integer num)
 {
-	status = num;
+    status = num;
 }
 integer listenhandle;
 setListener(integer s)
@@ -108,7 +108,7 @@ setListener(integer s)
 }
 setName(key o)
 {
-	myName=llKey2Name(o);
+    myName=llKey2Name(o);
 }
 
 setHealth(integer amount)
@@ -117,11 +117,11 @@ setHealth(integer amount)
     announcehealth(health); 
 }
 string currName() {
-	if (rpname == "NULL" | rpname == "") {
-		return myName;
-	} else { 
-		return rpname + " (" + myName + ")";
-	}
+    if (rpname == "NULL" | rpname == "") {
+        return myName;
+    } else { 
+        return rpname + " (" + myName + ")";
+    }
 }
 
 setConstitution(integer amount)
@@ -161,17 +161,17 @@ changeHealth(integer amount)
 
 setDmgStatus(integer stat)
 {
-	dmgstatus=stat;
+    dmgstatus=stat;
 }
 
 setMeleeDamage(integer amount)
 {
-	meleedamage=amount;
+    meleedamage=amount;
 }
 
 setMeleeRate(float sec)
 {
-	meleerate=sec;
+    meleerate=sec;
 }
 
 string right(string src, string divider)
@@ -249,19 +249,19 @@ doRPcmd(key source, string sourcename, list cmd)
 
 startAnimation(string animation)
 {
-	if (llGetInventoryType(animation) == 20)
-	{
-		llStartAnimation(animation);
-	}
-	else
-	{
-		llMessageLinked(LINK_THIS,-1000, "Missing animation: " + animation, NULL_KEY);  
-	}
+    if (llGetInventoryType(animation) == 20)
+    {
+        llStartAnimation(animation);
+    }
+    else
+    {
+        llMessageLinked(LINK_THIS,-1000, "Missing animation: " + animation, NULL_KEY);  
+    }
 }
 
 doRP()
 {
-	list cmd=tmpCmd;
+    list cmd=tmpCmd;
     string stat=llList2String(cmd, 4);
     string amount=llList2String(cmd, 5);
     string duration=llList2String(cmd, 6);
@@ -272,7 +272,7 @@ doRP()
     string VSAY=llList2String(cmd, 11);
     integer DMG=llList2Integer(cmd, 1);
     if ((integer)amount != 0 && (integer)duration != 0) llMessageLinked(LINK_THIS, 9935, stat+"|"+amount+"||"+duration, NULL_KEY);
-   	changeHealth(DMG);
+       changeHealth(DMG);
     if (DMG < 0) llMessageLinked(LINK_THIS, 9920, "",NULL_KEY); // Sending only null_key to channel 9920?? this signals API to tick RAGE type special up by 1
     string say = str_replace(VSAY, "%d", currName());
     if (say != "NULL" && say != "") {llSay(0, say);}
@@ -286,7 +286,7 @@ doRP()
 
 doAPIProc(string n)
 {
-	if (debug) llOwnerSay(n);	
+    if (debug) llOwnerSay(n);    
     string proc=right(n, "||");
     key source=(key)right(proc, "^");
     string sourcename=llKey2Name(source);
@@ -298,40 +298,40 @@ doAPIProc(string n)
    // llOwnerSay("stype:" + (string)STYPE);
     if (STYPE==1)
     {
-    	doRPcmd(source, sourcename, cmd);
-    	return;
+        doRPcmd(source, sourcename, cmd);
+        return;
     }
     if (checkReflect()==21)
     {
-    	llMessageLinked(LINK_THIS, 6, (string)source+"|"+"A||"+proc, source);
-    	return;
+        llMessageLinked(LINK_THIS, 6, (string)source+"|"+"A||"+proc, source);
+        return;
     }
     if (status != 0) // what to do if the player is not currently combative
     {
         if (STYPE==3 && status==5)
         {
-        	setStatus(7);llMessageLinked(LINK_THIS, 8, "7", NULL_KEY);
+            setStatus(7);llMessageLinked(LINK_THIS, 8, "7", NULL_KEY);
         }
         else
         if (STYPE==15 && status==7) //Found status=7 changed to status==7
         {
-        	setStatus(1);
-        	llMessageLinked(LINK_THIS, 8, "1", NULL_KEY);
-        	llOwnerSay("You are no longer wounded.");
+            setStatus(1);
+            llMessageLinked(LINK_THIS, 8, "1", NULL_KEY);
+            llOwnerSay("You are no longer wounded.");
         }
         else
         if (STYPE==12)
         {
             if (status==5 || status==7)
             {
-            	setStatus(0);llMessageLinked(LINK_THIS, 8, "1", NULL_KEY);
-            	llSleep(0.25);
-            	llMessageLinked(LINK_THIS, 8, "1", NULL_KEY);
+                setStatus(0);llMessageLinked(LINK_THIS, 8, "1", NULL_KEY);
+                llSleep(0.25);
+                llMessageLinked(LINK_THIS, 8, "1", NULL_KEY);
             }
         }
         else
         {
-        	return;
+            return;
         }
     }
     vector targetpos=llList2Vector(llGetObjectDetails(source,[OBJECT_POS]),1);
@@ -339,8 +339,8 @@ doAPIProc(string n)
     float distance=llVecDist(mypos,targetpos);
     if (distance < llList2Float(cmd, 2) || distance == llList2Float(cmd, 2))
     {
-    	
-    	integer SOFF=llList2Integer(cmd, 15);
+        
+        integer SOFF=llList2Integer(cmd, 15);
         string SDEF=llList2String(cmd, 14);
         string VANIM=llList2String(cmd, 7);
         string VPART=llList2String(cmd, 8);
@@ -354,17 +354,17 @@ doAPIProc(string n)
         // check if this is AOE
         if (CMDTYPE == "AOE")
         {
-        	if (llGetUnixTime()-AOETime < 20)
-        	{
-        		if ((debug == 1)) llOwnerSay("Delay for AOE imposed, bypassing damage");
-        		return;
-        	}
-        	if (blockAOE == 1) {
-        		if ((debug ==1)) llOwnerSay("AOE API blocked in this sim configuration, no damage applied.");
-        		return;	
-        	}
-        	AOETime=llGetUnixTime();
-        	if (DMG > 20) DMG=20;
+            if (llGetUnixTime()-AOETime < 20)
+            {
+                if ((debug == 1)) llOwnerSay("Delay for AOE imposed, bypassing damage");
+                return;
+            }
+            if (blockAOE == 1) {
+                if ((debug ==1)) llOwnerSay("AOE API blocked in this sim configuration, no damage applied.");
+                return;    
+            }
+            AOETime=llGetUnixTime();
+            if (DMG > 20) DMG=20;
         }
         
         // check if this is successful
@@ -395,36 +395,36 @@ doAPIProc(string n)
         //llOwnerSay((string)DMG);
         if (checkReflect()==20)
         {
-        	DMG=llCeil((float)DMG*0.5);
+            DMG=llCeil((float)DMG*0.5);
         }
         
         if (STYPE==5 || STYPE==6)
         {
-        	yank(source);
-       	}
+            yank(source);
+           }
         else
         if (STYPE==13 || STYPE==14 || STYPE==21)
         {
-        	setReflectstate(STYPE, llList2Float(cmd, 6));
+            setReflectstate(STYPE, llList2Float(cmd, 6));
         }
         else
         if (STYPE==5 || STYPE==6)
         {
-        	yank(source);
-       	}
+            yank(source);
+           }
         else
         if (STYPE==8 || STYPE==10)
         {
-        	doDOT(DMG, source);
+            doDOT(DMG, source);
         }
         else
         if (STYPE==22)
         {
-        	llMessageLinked(LINK_THIS, 9955, llList2String(cmd, 6), NULL_KEY);
+            llMessageLinked(LINK_THIS, 9955, llList2String(cmd, 6), NULL_KEY);
         }
         if (llList2String(cmd, 4) !="NULL")
         {
-        	string stat=llList2String(cmd, 4);
+            string stat=llList2String(cmd, 4);
             string amount=llList2String(cmd, 5);
             string duration=llList2String(cmd, 6);
             llMessageLinked(LINK_THIS, 9935, stat+"|"+amount+"||"+duration, NULL_KEY);
@@ -438,7 +438,7 @@ doAPIProc(string n)
 
         if (VSND != 0)
         {
-        	playSound(VSND);
+            playSound(VSND);
         }
         llMessageLinked(LINK_SET,10,VPART+"|"+VPARTDUR,NULL_KEY);
         if (source != me) llMessageLinked(LINK_THIS, 9910, "", source); //announce who hit me
@@ -458,11 +458,11 @@ integer doCalcChance(integer off, string defense)
     if (failchance > 0.9) failchance=0.9;
     if (llFrand(1.0) > failchance)
     {
-    	return 0;
+        return 0;
     }
     else
     {
-    	return 1;
+        return 1;
     }
 }
 
@@ -476,12 +476,12 @@ integer checkReflect()
 {
     if (llGetUnixTime() > reflectend)
     {
-    	reflectstate=0;
-    	return 0;
+        reflectstate=0;
+        return 0;
     }
     else
     {
-    	return reflectstate;
+        return reflectstate;
     }
 }
 
@@ -496,12 +496,12 @@ doMeleeHit(string command, key sender, integer stren)
         integer dmg = meleedamage+bonus;
         if (checkReflect()==13)
         {
-        	llMessageLinked(LINK_THIS, 9997, (string)sender + "|r||" + (string)stren, NULL_KEY);
-        	dmg=0;
+            llMessageLinked(LINK_THIS, 9997, (string)sender + "|r||" + (string)stren, NULL_KEY);
+            dmg=0;
         }
         if (checkReflect()==14)
         {
-        	llMessageLinked(LINK_THIS, 9997, (string)sender + "|r||" + (string)stren, NULL_KEY);
+            llMessageLinked(LINK_THIS, 9997, (string)sender + "|r||" + (string)stren, NULL_KEY);
         }
         changeHealth(-dmg);
         if (sender != me) llMessageLinked(LINK_THIS,9910,"",sender); //announce who hit me
@@ -566,7 +566,7 @@ default
             string SDEF=llList2String(tmpCmd, 13);
             if (doCalcChance(SOFF, SDEF)==0)
             {
-            	llSay(0, tmpSourceName + "'s attempt to " + llList2String(tmpCmd, 12) + " fails");
+                llSay(0, tmpSourceName + "'s attempt to " + llList2String(tmpCmd, 12) + " fails");
                 tmpSourceName="";
                 tmpSourceKey="";
                 tmpCmd=[];
@@ -575,7 +575,7 @@ default
             }
             else
             {
-            	llSay(0, currName() + " attempts to evade, but fails.");
+                llSay(0, currName() + " attempts to evade, but fails.");
                 doRP();    
                 tmpSourceName="";
                 tmpSourceKey="";
@@ -594,12 +594,12 @@ default
         }
         else
         {
-        	string msg=decrypt(message);
+            string msg=decrypt(message);
             if (debug==1) llOwnerSay(msg);
             key targetkey=(key)left(msg,"|");
             if (targetkey==me)
             {
-            	string command = right(msg,"|");
+                string command = right(msg,"|");
                 key sender=llGetOwnerKey(id);
                 //llMessageLinked(LINK_THIS, 9999, command, llGetOwnerKey(id));
                 hitType=left(command,"||");
@@ -608,39 +608,39 @@ default
                 //llOwnerSay("stren: " + (string)stren);     
                 if (hitType=="m")
                 {
-                	if (dmgstatus==1)
-                	{
-                		doMeleeHit(command, sender, stren);
-                	}
+                    if (dmgstatus==1)
+                    {
+                        doMeleeHit(command, sender, stren);
+                    }
                 }
                 else
                 if (hitType=="r")
                 {
-                	integer bonus;
-        			bonus=(integer)(d(stren,4))-1; //using d to divide
-        			if (bonus > 6) bonus=6;
-        			integer dmg = -3-bonus;
- 					changeHealth(dmg);
+                    integer bonus;
+                    bonus=(integer)(d(stren,4))-1; //using d to divide
+                    if (bonus > 6) bonus=6;
+                    integer dmg = -3-bonus;
+                     changeHealth(dmg);
                 }
                 else
                 if (hitType=="x")
                 {
-                	//this is xp drop
+                    //this is xp drop
                     llMessageLinked(LINK_THIS, 3333,right(command,"||"), sender);
                 }
                 else if (hitType=="e" || hitType=="E") // enhanced bullet announcement
                 {
-                	llMessageLinked(LINK_THIS, 7503,right(command,"||"), sender);
+                    llMessageLinked(LINK_THIS, 7503,right(command,"||"), sender);
                     //llOwnerSay("dmgHandler: got new bullet cmd");
                 }
                 else
                 if (hitType=="k") // this is a comm from the loser in a fight to tick xp
                 {
-                	llMessageLinked(LINK_THIS, 7352, right(command, "||"), sender);                         
+                    llMessageLinked(LINK_THIS, 7352, right(command, "||"), sender);                         
                 }
                 else // this will be A (for skills) or P (for API procs)
                 {
-                	doAPIProc(right(command, "||"));
+                    doAPIProc(right(command, "||"));
                 }
             }
         }
@@ -656,15 +656,15 @@ default
         else
         if (num==9996) //this msg is coming from the ranged damage handler
         {
-        	if ((randInt(100) > missPercent) && status==0)
-        	{
-        		integer dmg=(integer)str;
+            if ((randInt(100) > missPercent) && status==0)
+            {
+                integer dmg=(integer)str;
                 if (checkReflect()==13)
                 {
-                	llMessageLinked(LINK_THIS, 9997, (string)id + "|r||" + (string)Dexterity, NULL_KEY);
-                	dmg=0;
+                    llMessageLinked(LINK_THIS, 9997, (string)id + "|r||" + (string)Dexterity, NULL_KEY);
+                    dmg=0;
                 }
-                if (checkReflect()==14)	llMessageLinked(LINK_THIS, 9997, (string)id + "|r||" + (string)Dexterity, NULL_KEY);
+                if (checkReflect()==14)    llMessageLinked(LINK_THIS, 9997, (string)id + "|r||" + (string)Dexterity, NULL_KEY);
                 health=health-dmg;
                 if (health<0) health=0;
                 if (health>maxhealth) health=maxhealth;
@@ -678,7 +678,7 @@ default
         else if (num==8000) receiveChallenge(str);
         else if (num==12)
         {
-        	sendToHud("MAXHEALTH|" + (string)maxhealth);
+            sendToHud("MAXHEALTH|" + (string)maxhealth);
             sendToHud("HEALTH|" + (string)health);
         }
         else if (num==7) setStatus((integer)str);
@@ -706,11 +706,11 @@ default
             else if (loadparam == "V_GRP") v_GRP=(right(str,"|"));
             else if (loadparam == "C")
             {
-            	setConstitution((integer)right(str,"|"));
-            	setHealth(maxhealth);
+                setConstitution((integer)right(str,"|"));
+                setHealth(maxhealth);
             }
             else if (loadparam == "RPNAME") {
-            	rpname = right(str,"|");
+                rpname = right(str,"|");
             }
             else if (loadparam =="LOADCOMPLETE") 
             {
@@ -718,12 +718,12 @@ default
                 announcehealth(health);
                 llSetTimerEvent(0.2);
             }  else if (loadparam =="BLOCKAPI") {
-	        	list blockAPI=llCSV2List(right(str,"|"));
-	        	if (llListFindList(blockAPI, ["G"]) != -1) {
-	    				blockAOE=1;
-	    				
-		    	}
-	        }
+                list blockAPI=llCSV2List(right(str,"|"));
+                if (llListFindList(blockAPI, ["G"]) != -1) {
+                        blockAOE=1;
+                        
+                }
+            }
             
         }        
     }
@@ -732,7 +732,7 @@ default
         dmgstatus=1;
         if (llGetUnixTime() > tmpTime && tmpTime !=0)
         {
-        	tmpSourceName="";
+            tmpSourceName="";
             tmpSourceKey="";
             tmpCmd=[];
             tmpTime=0;    

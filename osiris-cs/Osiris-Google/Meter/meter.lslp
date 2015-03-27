@@ -32,9 +32,9 @@ integer status;
                 // 6 = loading
                 // 7 = wounded
                 // 99 = checking security
-string secureKey = "A0291602-35A4-11DE-8B67-A89855D89593";
+string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey = "8844731A-3B0D-11DE-9F74-35C555D89593";
+string myKey = "dJRvOIRt+GK14qEIc4vaK48UYGc=";
 string randCheck;
 string title = "";
 
@@ -149,7 +149,7 @@ setRandCheck(){
     (randCheck = (((string)llFrand(1.410065407e9)) + ((string)llFrand(1.410065407e9))));
 }
 createSecurePass(){
-    (securePass = ("Pain in the ass password" + llGetDate()));
+    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass(string str){
     return llXorBase64StringsCorrect(llStringToBase64(str),llStringToBase64(securePass));

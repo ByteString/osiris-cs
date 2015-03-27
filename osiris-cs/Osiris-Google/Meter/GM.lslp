@@ -28,9 +28,9 @@ string gmname;
 // **************************************************
 
 // CHALLENGE/AUTHENTICATION
-string secureKey="";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="";
+string myKey="6c9KfxFENvMND4XoGh9fsuoVHZE=";
 string randCheck;
 
 list gmmenu=["Ban","Remove Ban"];
@@ -89,7 +89,7 @@ setRandCheck()
 }
 createSecurePass()
 {
-  securePass="Pain in the ass password" + llGetDate();   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str)
 {
@@ -120,7 +120,7 @@ string decrypt(string str){
     return llBase64ToString(llXorBase64StringsCorrect(str,llStringToBase64(pass)));
 }
 integer generateChannel(string text){
-	return ((-2 * ((integer)("0x" + llGetSubString(text,-5,-1)))) - 173000);
+    return ((-2 * ((integer)("0x" + llGetSubString(text,-5,-1)))) - 173000);
 }
 integer randInt(integer n)
 {
@@ -239,51 +239,51 @@ getgmstatus()
 
 setgmstatus(string gm)
 {
-	//llOwnerSay(gm);
-	mainmenu=[];
-	banduration=[];
-	gmstatus=(integer)left(gm, "^");
-	if (gmstatus == 0) {return;}
-	list gmperms=llCSV2List(right(gm,"^"));
-	xplimit=llList2Integer(gmperms, 0);
-	radio=llList2Integer(gmperms, 1);
-	banlimit=llList2Integer(gmperms, 2);
-	allowban=llList2Integer(gmperms, 3);
-	allowrez=llList2Integer(gmperms, 4);
-	gmname=llList2String(gmperms,5);
-	
-	if (displayGM==1) {mainmenu=mainmenu + ["Display"];}
- 	
- 	
- 	// loop through the xp menu and add any values which are less than the limit
- 	if (xplimit > 0)  {
- 		list tempxpmenu=[5,10,25,100,250,500,1000];
- 		mainmenu=mainmenu + ["Drop XP"];
- 		integer i;
- 	do {
- 		if (llList2Integer(tempxpmenu,i) < (xplimit+1)) {
-	 		xpmenu=xpmenu + [llList2String(tempxpmenu, i)];}
- 		++i;
- 	} while (i < llGetListLength(tempxpmenu));
- 	}
- 	
-	if (allowban == 1) {
-		if (banlimit>0 && banlimit < 24) {banduration=banduration+["1 hour"];}
-		else if (banlimit==24) {banduration=banduration+["1 hour","1 day"];}
-		else if (banlimit==72) {banduration=banduration+["1 hour","1 day","3 days"];}
-		else if (banlimit==168) {banduration=banduration+["1 hour","1 day","3 days","1 week"];}
-		else if (banlimit==720) {banduration=banduration+["1 hour","1 day","3 days","1 week","1 month"];}
-		else if (banlimit==0) {banduration=banduration+["1 hour","1 day","3 days","1 week","1 month","Permanent"];}
-		mainmenu=mainmenu + ["Ban","Remove Ban"];
-	}
-	
-	//if (allowrez == 1) {mainmenu=mainmenu+["Rezzers"];}
-	if (radio == 1) {
-		mainmenu=mainmenu+["Mute","UnMute"];
-		llMessageLinked(LINK_THIS, 2223,"",NULL_KEY);
-		}
-	if (allowrez==1 | allowban==1 | xplimit > 0)
-		{IsGM=1;}
+    //llOwnerSay(gm);
+    mainmenu=[];
+    banduration=[];
+    gmstatus=(integer)left(gm, "^");
+    if (gmstatus == 0) {return;}
+    list gmperms=llCSV2List(right(gm,"^"));
+    xplimit=llList2Integer(gmperms, 0);
+    radio=llList2Integer(gmperms, 1);
+    banlimit=llList2Integer(gmperms, 2);
+    allowban=llList2Integer(gmperms, 3);
+    allowrez=llList2Integer(gmperms, 4);
+    gmname=llList2String(gmperms,5);
+    
+    if (displayGM==1) {mainmenu=mainmenu + ["Display"];}
+     
+     
+     // loop through the xp menu and add any values which are less than the limit
+     if (xplimit > 0)  {
+         list tempxpmenu=[5,10,25,100,250,500,1000];
+         mainmenu=mainmenu + ["Drop XP"];
+         integer i;
+     do {
+         if (llList2Integer(tempxpmenu,i) < (xplimit+1)) {
+             xpmenu=xpmenu + [llList2String(tempxpmenu, i)];}
+         ++i;
+     } while (i < llGetListLength(tempxpmenu));
+     }
+     
+    if (allowban == 1) {
+        if (banlimit>0 && banlimit < 24) {banduration=banduration+["1 hour"];}
+        else if (banlimit==24) {banduration=banduration+["1 hour","1 day"];}
+        else if (banlimit==72) {banduration=banduration+["1 hour","1 day","3 days"];}
+        else if (banlimit==168) {banduration=banduration+["1 hour","1 day","3 days","1 week"];}
+        else if (banlimit==720) {banduration=banduration+["1 hour","1 day","3 days","1 week","1 month"];}
+        else if (banlimit==0) {banduration=banduration+["1 hour","1 day","3 days","1 week","1 month","Permanent"];}
+        mainmenu=mainmenu + ["Ban","Remove Ban"];
+    }
+    
+    //if (allowrez == 1) {mainmenu=mainmenu+["Rezzers"];}
+    if (radio == 1) {
+        mainmenu=mainmenu+["Mute","UnMute"];
+        llMessageLinked(LINK_THIS, 2223,"",NULL_KEY);
+        }
+    if (allowrez==1 | allowban==1 | xplimit > 0)
+        {IsGM=1;}
 }
 // request amount of xp dropped
 getCurrentXPLimit()
@@ -346,10 +346,10 @@ default
         else if (num==1)
             {
             string param=left(str,"|");
-        	if (param=="LOADCOMPLETE") {
+            if (param=="LOADCOMPLETE") {
                 getgmstatus();
                 llSetTimerEvent(10.0);
-        	} else if (param == "DISPLAYGM") displayGM=(integer)right(str, "|");
+            } else if (param == "DISPLAYGM") displayGM=(integer)right(str, "|");
         }
         
     }
@@ -387,10 +387,10 @@ default
     }
     timer()
     {
-    	llSetTimerEvent(0.0); // kill the timer so it won't keep requesting it over and over and over again :O
-    	if (IsGM==1) {
-    		state GM;
-    	}
+        llSetTimerEvent(0.0); // kill the timer so it won't keep requesting it over and over and over again :O
+        if (IsGM==1) {
+            state GM;
+        }
     }
     
 }
@@ -408,14 +408,14 @@ state GM
         if (num==5000) {llDialog(me, "Please select an option", mainmenu, mainchannel);}
         else if (num==8000) {receiveChallenge(str);}
         else if (num==6502 && displayGM==1) {
-        	showGM=0;
-        	}
+            showGM=0;
+            }
         else if (num==6503) {
-        	showGM=1;;
-        	}
+            showGM=1;;
+            }
         else if (num==1) {
-        	if (str == "DISPLAYGM|0") {displayGM=0;}
-        	else if (str == "DISPLAYGM|1") {displayGM=1; mainmenu=mainmenu+["Display"];}
+            if (str == "DISPLAYGM|0") {displayGM=0;}
+            else if (str == "DISPLAYGM|1") {displayGM=1; mainmenu=mainmenu+["Display"];}
         }
     }
     changed(integer f_Changed)
@@ -448,11 +448,11 @@ state GM
     {
         if (channel==gmhudchan)
         {
-        	if (mute==0) {
-            	llOwnerSay(decrypt(message));
-        	} else if (mute==1) {
-        		addCache(decrypt(message));
-        	}
+            if (mute==0) {
+                llOwnerSay(decrypt(message));
+            } else if (mute==1) {
+                addCache(decrypt(message));
+            }
         }
         else if (channel==mainchannel)
         {
@@ -510,21 +510,21 @@ state GM
     } 
     timer()
     {
-    	llSensor("",NULL_KEY, AGENT, 96, PI);	
-    	llMessageLinked(LINK_THIS, 2222, gmname, NULL_KEY);
+        llSensor("",NULL_KEY, AGENT, 96, PI);    
+        llMessageLinked(LINK_THIS, 2222, gmname, NULL_KEY);
     }
     sensor(integer total_number)
     {
-        	integer i;
+            integer i;
             if (i < total_number)
             {
                 if (llListFindList(people, [llDetectedName(i)]) == -1)
                 {
                         http_request_id=llHTTPRequest(playerurl+"?key=" + llEscapeURL((string)llDetectedKey(i)) + "&avatar=" + llEscapeURL(llDetectedName(i)), [],"");
                         people=people + llDetectedName(i);
-            	}
-			i++;
-        	}
+                }
+            i++;
+            }
         if (llGetListLength(people) > 100)
         {people=[""];}
     }
@@ -539,11 +539,11 @@ state xpdrop {
            state GM;
        }
        else {
-       		llMessageLinked(-4,6504,(string)xpamt,"");
-       		llOwnerSay(llKey2Name(me) + "dropped " + (string)xpamt + "xp");
-       		llRegionSay(gmhudchan, crypt(llKey2Name(me) + "dropped " + (string)xpamt + "xp"));
-       		http_request_id = llHTTPRequest("someurl" + (string)llGetOwner() + "&amount=" + (string)xpamt, [], "");  
-			state GM;
+               llMessageLinked(-4,6504,(string)xpamt,"");
+               llOwnerSay(llKey2Name(me) + "dropped " + (string)xpamt + "xp");
+               llRegionSay(gmhudchan, crypt(llKey2Name(me) + "dropped " + (string)xpamt + "xp"));
+               http_request_id = llHTTPRequest("someurl" + (string)llGetOwner() + "&amount=" + (string)xpamt, [], "");  
+            state GM;
        }
     }
 }
@@ -609,15 +609,15 @@ state ban
         sethttp_ok(1);
         if ((key)llStringTrim(body,STRING_TRIM))
         {
-	        setkey((key)llStringTrim(body, STRING_TRIM));
-	        llOwnerSay("Received key for " + bannedperson + "(" + (string)banid + ")");
-	        llDialog(llGetOwner(),"Select the reason they are being banned",banreasons,reasonchannel);
-	        dialoglistener=llListen(reasonchannel,llKey2Name(llGetOwner()),llGetOwner(),"");
+            setkey((key)llStringTrim(body, STRING_TRIM));
+            llOwnerSay("Received key for " + bannedperson + "(" + (string)banid + ")");
+            llDialog(llGetOwner(),"Select the reason they are being banned",banreasons,reasonchannel);
+            dialoglistener=llListen(reasonchannel,llKey2Name(llGetOwner()),llGetOwner(),"");
         }  
         else
         {
-        	llOwnerSay("Could not retrieve a valid key for " + bannedperson + ".  Are you sure you spelled the name correctly? Please try again.");
-        	state GM;	
+            llOwnerSay("Could not retrieve a valid key for " + bannedperson + ".  Are you sure you spelled the name correctly? Please try again.");
+            state GM;    
         }  
     }
  
@@ -673,11 +673,11 @@ state unban
         sethttp_ok(1);
         if ((key)llStringTrim(body,STRING_TRIM))
         {
-        	setkey((key)llStringTrim(body, STRING_TRIM));
-        	llOwnerSay("Received key for bannedperson: " + (string)banid);
-	        llDialog(llGetOwner(),"You are removing " + bannedperson + " from the ban list.",["Ok"],durationchannel);
-	        dialoglistener=llListen(durationchannel,llKey2Name(llGetOwner()),llGetOwner(),"");
-	        llSetTimerEvent(30);
+            setkey((key)llStringTrim(body, STRING_TRIM));
+            llOwnerSay("Received key for bannedperson: " + (string)banid);
+            llDialog(llGetOwner(),"You are removing " + bannedperson + " from the ban list.",["Ok"],durationchannel);
+            dialoglistener=llListen(durationchannel,llKey2Name(llGetOwner()),llGetOwner(),"");
+            llSetTimerEvent(30);
         }    
     }
  

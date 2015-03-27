@@ -1,10 +1,10 @@
-string secureKey = "";
+string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey = "";
+string myKey = "x32NHKH9iOEHDZRoZFZOC3CIixc=";
 string randCheck;
 
 createSecurePass(){
-    securePass = "";
+    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass(string str){
     return llXorBase64StringsCorrect(llStringToBase64(str),llStringToBase64(securePass));
@@ -63,14 +63,14 @@ list textures = [
 
 default {
     state_entry() {
-        if (llGetInventoryNumber(INVENTORY_SCRIPT) != 1) {llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("preloader");}
-        if ((llGetCreator() != "c5ed34ba-bcc4-4779-be1e-1b1b627a7f88")) {llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("preloader");}
+        //if (llGetInventoryNumber(INVENTORY_SCRIPT) != 1) {llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("preloader");}
+        //if ((llGetCreator() != "c5ed34ba-bcc4-4779-be1e-1b1b627a7f88")) {llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("preloader");}
         llSetTimerEvent(20.0);
     }
     timer()
     {
-    	if (index > llGetListLength(textures)-1) index=0;
-    	llSetPrimitiveParams([PRIM_TEXTURE, ALL_SIDES, llList2String(textures, index),<0.0,0.0,0.0>,<0.0,0.0,0.0>,0.0]);
-    	++index;
+        if (index > llGetListLength(textures)-1) index=0;
+        llSetPrimitiveParams([PRIM_TEXTURE, ALL_SIDES, llList2String(textures, index),<0.0,0.0,0.0>,<0.0,0.0,0.0>,0.0]);
+        ++index;
     }
 }

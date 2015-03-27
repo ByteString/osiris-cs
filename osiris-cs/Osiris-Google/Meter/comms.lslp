@@ -90,9 +90,9 @@
 // comms - LSL Script 
 
 // CHALLENGE/AUTHENTICATION
-string secureKey="";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="";
+string myKey="NZn7bNgO0z2CU1nt5U5Zqz+lbWc=";
 string randCheck;
 integer localchannel;
 integer gmhudchan=-9783421;
@@ -114,7 +114,7 @@ string decrypt (string str)
 }
 setGMLevel(integer n)
 {
-gmstatus=n;	
+gmstatus=n;    
 }
 setchannel(integer chan)
 {
@@ -131,7 +131,7 @@ setRandCheck()
 }
 createSecurePass()
 {
-  securePass="";   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str)
 {
@@ -154,18 +154,18 @@ string left(string src, string divider) {
     return src;
 }
 sayMessage(integer num, integer messageID, string str, key id) {
-	string message;
-	// set the message
-	if (messageID==1) {message="You may only wear one Osiris meter at a time.";}
-	else if (messageID==2) {message="Your sim has enabled capture mode, type /9cap to enable. /9endcap to red flag and terminate capture";}
-	else if (messageID==3) {message="Your roleplay name in this sim has been set to " + str;}
-	else if (messageID==4) {message="You may not enter tournament mode while dead or captured";}
-	else if (messageID==5) {message="You may not enter tournament mode while injured";}
-	else if (messageID==6) {message="You may not reset unless your health is above 75";}
-	// say it
-	if (num==15) {llOwnerSay(message);}
-	else if (num==16) {llSay(0, message);}
-	else if (num==17) {llShout(0, message);}
+    string message;
+    // set the message
+    if (messageID==1) {message="You may only wear one Osiris meter at a time.";}
+    else if (messageID==2) {message="Your sim has enabled capture mode, type /9cap to enable. /9endcap to red flag and terminate capture";}
+    else if (messageID==3) {message="Your roleplay name in this sim has been set to " + str;}
+    else if (messageID==4) {message="You may not enter tournament mode while dead or captured";}
+    else if (messageID==5) {message="You may not enter tournament mode while injured";}
+    else if (messageID==6) {message="You may not reset unless your health is above 75";}
+    // say it
+    if (num==15) {llOwnerSay(message);}
+    else if (num==16) {llSay(0, message);}
+    else if (num==17) {llShout(0, message);}
 }
 receiveChallenge(string msg)
 {
@@ -201,13 +201,13 @@ default
 }
 state radio
 {
-	state_entry()
-	{
-		setchannel(12);
+    state_entry()
+    {
+        setchannel(12);
         commandlistener=llListen(commandchannel, llKey2Name(llGetOwner()),llGetOwner(),"");
-		
-	}	
-	listen(integer channel, string name, key id, string message)
+        
+    }    
+    listen(integer channel, string name, key id, string message)
     {
         if (channel == commandchannel)
         {

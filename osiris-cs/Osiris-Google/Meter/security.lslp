@@ -17,29 +17,29 @@
 // *********************************
 
 integer debug=0;
-string myKey="somethingmore";
+string myKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 key colleen="6883df08-3383-47ce-ad7a-db6b330deb7f";
 key liace="6883df08-3383-47ce-ad7a-db6b330deb7f";
 key hermit="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string main="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string API="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string character="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string comms="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string dataloader="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string dmgHandler="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string GM = "6883df08-3383-47ce-ad7a-db6b330deb7f";
-string melee="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string particles="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string password="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string ranged="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string sim="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string skills="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string meter="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string anticamp="somethingmore";
-string preloader="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string capture="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string ram="6883df08-3383-47ce-ad7a-db6b330deb7f";
-string targeting="6883df08-3383-47ce-ad7a-db6b330deb7f";
+string main="LCPH+prwIHqND0WasSMFIeVfVNI=";
+string API="4iew46WYYgmLtlbmcrwDZt8lnAY=";
+string character="w9pf+ZL1iGkZKwFNV2vUyKArhAs=";
+string comms="NZn7bNgO0z2CU1nt5U5Zqz+lbWc=";
+string dataloader="1oKFeS6qsGdHEmKRn/g2SSCoZXs=";
+string dmgHandler="qbhhpMn/LwlKmCcNeCFX8MQiQOY=";
+string GM = "6c9KfxFENvMND4XoGh9fsuoVHZE=";
+string melee="yCk5SZIxjcYtSzbHormFS2H2Kdc=";
+string particles="7TnnlqVbsNdgkYbQA6BZQOr+ZL8=";
+string password="HjSoXPtwhnign8JdlPepnDCEE0c=";
+string ranged="pRFe7p8t/Uo/d14ca5Isey7mpvU=";
+string sim="qOcN+LnvG64jB3swOa8kdmB8XL4=";
+string skills="occnHMhxtTV78yxPnzSIF4bTb9o=";
+string meter="dJRvOIRt+GK14qEIc4vaK48UYGc=";
+string anticamp="EK8+Fly2g2IjFuPPKvDiH2UihBw=";
+string preloader="x32NHKH9iOEHDZRoZFZOC3CIixc=";
+string capture="B6asJOaeX/EplA2tVwWK4mmBYSM=";
+string ram="2KFAdLbWTgV55oTiq/K3IXC54vA=";
+string targeting="Fq4KBr/BA4HJ7r41S9DqUcC1qrE=";
 // check keys
 string maincheck;
 string APIcheck;
@@ -74,7 +74,7 @@ string randCheck;
 // using the new password
 createPass()
 {
-    initialpass="";
+    initialpass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
     pass=randomPass(24);  
 }
 // encrypt using the standard password
@@ -192,9 +192,9 @@ setKey(string msg)
             if (API !=APIcheck) {error=1;llOwnerSay("API");} 
         }  
      if (source=="capture" && sourceKey==capture && capturecheck=="")
-     	{
-     		capturecheck=sourceKey;
-     	}      
+         {
+             capturecheck=sourceKey;
+         }      
      if (source=="character" && sourceKey==character && charactercheck=="")
         {
             charactercheck=sourceKey;  
@@ -236,21 +236,21 @@ setKey(string msg)
              metercheck=sourceKey;    
          }
      if (source=="anticamp" && sourceKey==anticamp && anticampcheck=="")
-     	{
-     		anticampcheck=sourceKey;
-     	}
+         {
+             anticampcheck=sourceKey;
+         }
      if (source=="preloader" && sourceKey==preloader && preloadercheck=="")
-     	{
-     		preloadercheck=sourceKey;	
-     	}
+         {
+             preloadercheck=sourceKey;    
+         }
      if (source=="targeting" && sourceKey==targeting && targetingcheck=="")
-     	{
-     		targetingcheck=sourceKey;
-     	}
+         {
+             targetingcheck=sourceKey;
+         }
      if (source=="ram" && sourceKey==ram && ramcheck=="")
-     	{
-     		ramcheck=sourceKey;
-     	}
+         {
+             ramcheck=sourceKey;
+         }
 }
 // clear variables for all the other scripts
 clearKeys()
@@ -278,71 +278,72 @@ clearKeys()
 // detach the meter, or if it is rezzed then destroy it
 disable()
 {
-  llRemoveInventory("main");
-  llHTTPRequest("http://sl.rpcombat.com/TamperReport.cfm", [], "");
-  llInstantMessage(colleen, llKey2Name(llGetOwner()) + "'s RPCS failed tampering checks. Sent from SECURITY");
-  llSetText("Disabled, please open a new RPCS from the box",<1.0,0.0,0.0>,1.0);
-  integer inventory=llGetInventoryNumber(INVENTORY_ALL);
-  integer x;
-  do
-  {
-  	llRemoveInventory(llGetInventoryName(INVENTORY_ALL, x));
-  	++x;
-  }
-  while (x < inventory);
-  llRemoveInventory(llGetScriptName());
-  llDetachFromAvatar();
-  llDie();  
+  //llRemoveInventory("main");
+  //llHTTPRequest("http://sl.rpcombat.com/TamperReport.cfm", [], "");
+  //llInstantMessage(colleen, llKey2Name(llGetOwner()) + "'s RPCS failed tampering checks. Sent from SECURITY");
+  //llSetText("Disabled, please open a new RPCS from the box",<1.0,0.0,0.0>,1.0);
+  //integer inventory=llGetInventoryNumber(INVENTORY_ALL);
+  //integer x;
+  //do
+  //{
+  //    llRemoveInventory(llGetInventoryName(INVENTORY_ALL, x));
+  //    ++x;
+  //}
+  //while (x < inventory);
+  //llRemoveInventory(llGetScriptName());
+  //llDetachFromAvatar();
+  //llDie();  
 }
 // what is this for?
-setAvatar(integer id)
-{
- avatar=id;   
-}
+//setAvatar(integer id)
+//{
+// avatar=id;   
+//}
 // checks if all the scripts were created by me
 doScriptCheck()
 {
-	if (llGetNumberOfPrims() != 3) {llOwnerSay("Number of prims check failed. Please throw this meter away and unpack a new one."); disable();}
-    integer i=llGetListLength(scripts);
-    integer x;
-    while (x < i)
-    {
-        if (llGetInventoryCreator(llList2String(scripts, x)) != hermit)
-        {
-        	llOwnerSay("Internal script integrity check failed tampering tests. Disabling meter.");
-            disable();
-            
-        }
-        ++x;
-    }   
+    ;
+    //if (llGetNumberOfPrims() != 3) {llOwnerSay("Number of prims check failed. Please throw this meter away and unpack a new one."); disable();}
+    //integer i=llGetListLength(scripts);
+    //integer x;
+    //while (x < i)
+    //{
+    //    if (llGetInventoryCreator(llList2String(scripts, x)) != hermit)
+    //    {
+    //        llOwnerSay("Internal script integrity check failed tampering tests. Disabling meter.");
+     //       disable();
+     //       
+     //   }
+     //   ++x;
+    //}   
 }
 // tests if the number of scripts is correct, and if we are attached at the correct
 // location (not on the hud)
 test()
 {   
     // checks if the number of scripts is correct
-    if (llGetInventoryNumber(INVENTORY_SCRIPT) != llGetListLength(scripts))
-        {
-        	llOwnerSay("Number of scripts is wrong.");
-            disable();
-        }
-    if (llGetAttached()==0)
-    {
-        // check if we're colleen, if not then die
-        if (llGetOwner() != colleen) {
-        	if (llGetOwner() != liace) {
-            	llOwnerSay("Sorry, I'm not designed to be rezzed on the ground! I'm going to delete myself now.");
-            	disable();
-        	}
-        }    
-    } 
-    if (llGetAttached() > 30)
-    {
+   // if (llGetInventoryNumber(INVENTORY_SCRIPT) != llGetListLength(scripts))
+       // {
+       //     llOwnerSay("Number of scripts is wrong.");
+       //     disable();
+       // }
+   // if (llGetAttached()==0)
+   //{
+    //    // check if we're colleen, if not then die
+     //   if (llGetOwner() != colleen) {
+    //        if (llGetOwner() != liace) {
+    //            llOwnerSay("Sorry, I'm not designed to be rezzed on the ground! I'm going to delete myself now.");
+     //           disable();
+     //       }
+     //   }    
+    //} 
+   // if (llGetAttached() > 30)
+    //{
         //  we're attached to hud
-        llOwnerSay("Sorry I'm not designed to be attached to the hud! Please remove me and attach me to a body attachment point instead.");
-        llDetachFromAvatar();
-    }
-    if (llGetCreator() != hermit) {disable();}
+     //   llOwnerSay("Sorry I'm not designed to be attached to the hud! Please remove me and attach me to a body attachment point instead.");
+       // llDetachFromAvatar();
+    //}
+   // if (llGetCreator() != hermit) {disable();}
 }
 
 //  text functions

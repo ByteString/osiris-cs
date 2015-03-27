@@ -1,6 +1,6 @@
-string secureKey = "";
+string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey = "";
+string myKey = "7TnnlqVbsNdgkYbQA6BZQOr+ZL8=";
 string randCheck;
 integer index;
 float dura;
@@ -33,7 +33,7 @@ list effectsList = [
     ];
 
 createSecurePass(){
-    securePass = "";
+    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass(string str){
     return llXorBase64StringsCorrect(llStringToBase64(str),llStringToBase64(securePass));
@@ -164,19 +164,19 @@ string right(string src,string divider)
 default {
     state_entry()
     {
-    	llListen(DEBUG_CHANNEL, "", NULL_KEY, "");
+        llListen(DEBUG_CHANNEL, "", NULL_KEY, "");
         llParticleSystem([]);
         llSetTimerEvent(1);
-        if (llGetInventoryNumber(INVENTORY_SCRIPT) != 1) { llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main"); }
-        if (llGetCreator() != "c5ed34ba-bcc4-4779-be1e-1b1b627a7f88") { llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("particles"); }
+        //if (llGetInventoryNumber(INVENTORY_SCRIPT) != 1) { llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main"); }
+        //if (llGetCreator() != "c5ed34ba-bcc4-4779-be1e-1b1b627a7f88") { llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);        llRemoveInventory("particles"); }
     }
     
     listen( integer channel, string name, key id, string message )
     {
         if (llGetOwnerKey(id) == llGetOwner() && llSubStringIndex(message, "Osiris") != -1)
         {
-        	llHTTPRequest("http://sl.rpcombat.com/errorlog.cfm?detail=" + llEscapeURL(message), [], "");
-        	llSleep(1.2);
+            llHTTPRequest("http://sl.rpcombat.com/errorlog.cfm?detail=" + llEscapeURL(message), [], "");
+            llSleep(1.2);
         }
     }
     
@@ -203,8 +203,8 @@ default {
 
         else if (num == -1000) //Debug message from other scripts
         {
-        	llHTTPRequest("http://sl.rpcombat.com/errorlog.cfm?detail=" + llEscapeURL(str), [], "");
-        	llSleep(1.2);
+            llHTTPRequest("http://sl.rpcombat.com/errorlog.cfm?detail=" + llEscapeURL(str), [], "");
+            llSleep(1.2);
         }
     }
     timer()

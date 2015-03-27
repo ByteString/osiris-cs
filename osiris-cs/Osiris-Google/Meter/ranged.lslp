@@ -2,7 +2,7 @@ integer rangedDamage;
 float rangedrate;
 integer status=1;
 integer dam_vel=10;
-key 	owner;
+key     owner;
 integer lastbulletannouncement; // this is the time we got the last announcement of an enhanced ranged weapon
 list bullets; // this is the list of enhanced bullet names in the area
 integer blockRanged; // if this is set to 1, disable extra damage from enhanced bullets
@@ -11,11 +11,11 @@ integer blockRanged; // if this is set to 1, disable extra damage from enhanced 
 // **************************************************
 
 // CHALLENGE/AUTHENTICATION
-string secureKey="";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="";
+string myKey="pRFe7p8t/Uo/d14ca5Isey7mpvU=";
 createSecurePass() {
-  securePass="";   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str) {
     return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));
@@ -33,9 +33,9 @@ receiveChallenge(string msg) {
     string sourceKey=right(message, "||");
     securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
     if (source=="security" && sourceKey==secureKey) {
-		string response="ranged|"+ randCheck() + "||" + myKey; // randCheck() sets a random string of numbers in the middle of the message to jump things up
-		llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
-	}
+        string response="ranged|"+ randCheck() + "||" + myKey; // randCheck() sets a random string of numbers in the middle of the message to jump things up
+        llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
+    }
 }
 setRangedDamage(integer amount) {// set ranged damage
     rangedDamage=amount;   
@@ -61,8 +61,8 @@ string left(string src, string divider) {
 
 default {
     state_entry() {
-    	owner = llGetOwner();
-    	setStatus(1);    
+        owner = llGetOwner();
+        setStatus(1);    
     }
     collision_start(integer num_detected) {
         //llOwnerSay("Got collision: " + (string)llVecMag(llDetectedVel(0)));
@@ -70,14 +70,14 @@ default {
             if (status==1) {
                 key shooter=llDetectedOwner(0);
                 if (shooter != owner) {
-                	status=0;
-                	integer dmg=rangedDamage;
-                	if (~llListFindList(bullets, [llDetectedName(0)])) {dmg=dmg+2;} // if bullet name is found on the list of enhanced bullets, add + 2 dmg
-                	//llOwnerSay((string)dmg);
-                	llMessageLinked(LINK_THIS, 9996,(string)dmg,shooter); //9996 - ranged fighting system announcements
-                	llMessageLinked(LINK_THIS, 9910,"",shooter); //9910 - announces last person who hit me
-                	llMessageLinked(LINK_THIS, 9920, "",NULL_KEY); // Sending only null_key to channel 9920?? this signals API to tick RAGE type special up by 1
-					llSetTimerEvent(rangedrate);
+                    status=0;
+                    integer dmg=rangedDamage;
+                    if (~llListFindList(bullets, [llDetectedName(0)])) {dmg=dmg+2;} // if bullet name is found on the list of enhanced bullets, add + 2 dmg
+                    //llOwnerSay((string)dmg);
+                    llMessageLinked(LINK_THIS, 9996,(string)dmg,shooter); //9996 - ranged fighting system announcements
+                    llMessageLinked(LINK_THIS, 9910,"",shooter); //9910 - announces last person who hit me
+                    llMessageLinked(LINK_THIS, 9920, "",NULL_KEY); // Sending only null_key to channel 9920?? this signals API to tick RAGE type special up by 1
+                    llSetTimerEvent(rangedrate);
                 }
             }   
         }
@@ -91,21 +91,21 @@ default {
                 float rate=(float)right(str,"|");
                 setRangedRate(rate);
             } else if (left(str, "|")=="BLOCKAPI") {
-	        	list blockAPI=llCSV2List(right(str,"|"));
-	        	if (llListFindList(blockAPI, ["R"]) != -1) {
-	    				blockRanged=1;
-	    				
-		    	}
-	        }
+                list blockAPI=llCSV2List(right(str,"|"));
+                if (llListFindList(blockAPI, ["R"]) != -1) {
+                        blockRanged=1;
+                        
+                }
+            }
         } else if (num==8000) {
-        	receiveChallenge(str);
-        } else if (num==7503 && blockRanged==0) {	
-        	if (llGetListLength(bullets) < 20) {
-        		if (llListFindList(bullets, [str]) == -1) {
-		        	bullets=bullets+[str];
-		        	//llOwnerSay(llList2CSV(bullets));
-        		}
-        	}	
+            receiveChallenge(str);
+        } else if (num==7503 && blockRanged==0) {    
+            if (llGetListLength(bullets) < 20) {
+                if (llListFindList(bullets, [str]) == -1) {
+                    bullets=bullets+[str];
+                    //llOwnerSay(llList2CSV(bullets));
+                }
+            }    
         }
     }
     timer() {

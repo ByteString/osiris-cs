@@ -34,13 +34,13 @@ string rpname;
 checkSecurity(){
     me = llGetOwner();
     llRequestPermissions(llGetOwner(),(PERMISSION_ATTACH | PERMISSION_TRIGGER_ANIMATION));
-    if ((llGetCreator() != "c5ed34ba-bcc4-4779-be1e-1b1b627a7f88")) {llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main");}
-    integer perms = llGetObjectPermMask(MASK_OWNER);
-    if (me != "aa3457ab-3f55-4341-ae89-2a9c2baaa452") {
-            if ((perms & PERM_MODIFY)) {
-                llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main");
-            }
-    }
+    //if ((llGetCreator() != "c5ed34ba-bcc4-4779-be1e-1b1b627a7f88")) {llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main");}
+    //integer perms = llGetObjectPermMask(MASK_OWNER);
+    //if (me != "aa3457ab-3f55-4341-ae89-2a9c2baaa452") {
+    //        if ((perms & PERM_MODIFY)) {
+    //            llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main");
+    //        }
+    //}
     llResetOtherScript("security");
 }
 checkSecureResponse(string msg){
@@ -60,27 +60,27 @@ string decryptPass(string str){
 receiveChallenge(string msg){
     string message = decryptPass(msg);
     securePass = right(left(message,"||"),"|");
-    if (((left(message,"|") == "security") && (right(message,"||") == "INTERNAL PASSWORD NOT INCLUDED"))) {
-        string response = "main|" + (string)llFrand(1.410065407e9) + (string)llFrand(1.410065407e9) + "RESPONSE NOT INCLUDED HERE";
+    if (((left(message,"|") == "security") && (right(message,"||") == "7yxpZa2Rfq/wG/LRGidWJCy8BAw="))) {
+        string response = "main|" + (string)llFrand(1.410065407e9) + (string)llFrand(1.410065407e9) + "LCPH+prwIHqND0WasSMFIeVfVNI=";
         llMessageLinked(LINK_THIS,8001,cryptPass(response),NULL_KEY);
     }
 }
 challengeSecurity(){
-    string msg = "MAIN|" + (string)llFrand(1.410065407e9) + (string)llFrand(1.410065407e9) + "||" + "RESPONSE NOT INCLUDED HERE";
+    string msg = "MAIN|" + (string)llFrand(1.410065407e9) + (string)llFrand(1.410065407e9) + "||" + "LCPH+prwIHqND0WasSMFIeVfVNI=";
     llMessageLinked(LINK_THIS,8002,cryptPass(msg),NULL_KEY);
 }
 SecurityResponse(string msg){
     string message = decryptPass(msg);
-    if (((left(message,"|") == "SECURITY") && (right(message,"||") == "RESPONSE NOT INCLUDED HERE"))) {
+    if (((left(message,"|") == "SECURITY") && (right(message,"||") == "7yxpZa2Rfq/wG/LRGidWJCy8BAw="))) {
         (securityOK = 1);
     }
 }
 string currName() {
-	if (rpname == "") {
-		return myName;
-	} else { 
-		return rpname + " (" + myName + ")";
-	}
+    if (rpname == "") {
+        return myName;
+    } else { 
+        return rpname + " (" + myName + ")";
+    }
 }
 setStatus(integer num){
     (status = num);
@@ -133,11 +133,11 @@ string decrypt(string str){
     return llBase64ToString(llXorBase64StringsCorrect(str,llStringToBase64(pass)));
 }
 integer generateChannel(string text){
-	if (tourn==0) {
+    if (tourn==0) {
     return  ( -2 * (integer)("0x"+llGetSubString(text,-5,-1)) )-173000;
-	} else {
-	return  (( -1 * (integer)("0x"+llGetSubString(text,-5,-1)) )-500000);	
-	}
+    } else {
+    return  (( -1 * (integer)("0x"+llGetSubString(text,-5,-1)) )-500000);    
+    }
 }
 sendToHud(string s){
     if ((hudListener != 0)) {
@@ -172,7 +172,7 @@ checkHudListener(key id, string message) {
             llWhisper(-39485739, "RESPONSE NOT INCLUDED HERE|RUNNING");    
         }
         else if (message==("RESPONSE NOT INCLUDED HERE|RUNNING")) {
-        	llMessageLinked(15, 1, "", "");
+            llMessageLinked(15, 1, "", "");
             //llOwnerSay("You may only wear one Osiris meter at a time.");
             llMessageLinked(LINK_THIS, 999999, "", NULL_KEY);llRemoveInventory("main");    
         }
@@ -182,13 +182,13 @@ checkHudListener(key id, string message) {
     }
 }
 stopanims() {
-    llStopAnimation("Dead");
-    llStopAnimation("Bound");
+    //llStopAnimation("Dead");
+    //llStopAnimation("Bound");
 }
 default {
     state_entry() {
         llRequestPermissions(llGetOwner(),(PERMISSION_ATTACH | PERMISSION_TRIGGER_ANIMATION));
-        securePass = "something";
+        securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
         //llOwnerSay("Starting RPCS");
         mainmenu = ["Reset","Target","QuickKeys","Bug","Website","Meter Color","Password","Dice", "Trans", "Tourn"];
         list scriptstoreset=["meter", "GM", "comms", "character", "dmgHandler","API","melee","ranged","password","skills","dataloader","sim","targeting"];
@@ -271,12 +271,13 @@ state nochar {
 state load {
     state_entry() {
         skills = [];
-        tourn=0;
+        tourn=1;
         setStatus(6);
         myName = llKey2Name(me);
         integer dmgchannel = generateChannel((string)me);
         llMessageLinked(LINK_THIS,4,((string)dmgchannel),NULL_KEY);
-        llMessageLinked(LINK_THIS,0,"LOAD",NULL_KEY);
+        // No dataloder llMessageLinked(LINK_THIS,0,"LOAD",NULL_KEY);
+        llMessageLinked(LINK_THIS, 12000, "", "");
         stopanims();
         llListen(9,"",me,"");
         initialHUDListener = llListen(-39485739,"","","");
@@ -319,16 +320,16 @@ state load {
                 list s = llParseString2List(str,["|"],[""]);
                 skills = skills + [llList2String(s,1)];
             } else if (loadparam == "RPNAME") {
-            	if (right(str,"|") != "NULL") {
-            	rpname = right(str,"|");
-            	llMessageLinked(15, 3, rpname, NULL_KEY);
-            	//llOwnerSay("Your roleplay name in this sim has been set to " + rpname); 
-            	} else {
-            		rpname = "";
-            	}  
+                if (right(str,"|") != "NULL") {
+                rpname = right(str,"|");
+                llMessageLinked(15, 3, rpname, NULL_KEY);
+                //llOwnerSay("Your roleplay name in this sim has been set to " + rpname); 
+                } else {
+                    rpname = "";
+                }  
             } else if (str == "showgm|0") {
                 llMessageLinked(-4,6502,"",NULL_KEY);
-        	} else if (loadparam == "title") {
+            } else if (loadparam == "title") {
                 llMessageLinked(LINK_THIS,6501,right(str, "|"),NULL_KEY); //6501 - set title    
             } else if (~llListFindList(["F2","F3","F4","F5","F6","F7"],[loadparam])) {
                 setKey(loadparam,right(str, "|"));
@@ -378,17 +379,17 @@ state running {
             else if (msg == "f6") llMessageLinked(LINK_THIS,9950,F6,target);
             else if (msg == "f7") llMessageLinked(LINK_THIS,9950,F7,target);
             else if (msg == "tourn") {
-            	if (status == 5 || status == 4) {
-            		llMessageLinked(15, 4, "", NULL_KEY);
+                if (status == 5 || status == 4) {
+                    llMessageLinked(15, 4, "", NULL_KEY);
                    // llOwnerSay("You may not enter tournament mode while dead or captured");
                 } else {
                     if (health < maxHealth) {
                     llMessageLinked(15, 5, "", NULL_KEY);
                       //  llOwnerSay("You may not enter tournament mode while injured");
                     } else {
-            			llMessageLinked(LINK_THIS, 12000, "", "");
+                        llMessageLinked(LINK_THIS, 12000, "", "");
                     }
-            	}
+                }
             }
             else if (left(msg," ") == "target") llMessageLinked(-4, 4002, right(msg," "), NULL_KEY);
             else if (msg == "reset") {
@@ -397,7 +398,7 @@ state running {
                     llMessageLinked(-4,10000,"SAVESIMDATA",NULL_KEY); //Force RAM to save sim data
                     llResetScript();
                 } else {
-                	llMessageLinked(15, 6, "", NULL_KEY);
+                    llMessageLinked(15, 6, "", NULL_KEY);
                     //llOwnerSay("You may not reset unless your health is above 75");
                 }
             }
@@ -435,9 +436,9 @@ state running {
             } else if (left(msg," ") == "title") {
                 string title = right(message," ");
                 if (llStringLength(title) > 45) {
-                	llOwnerSay("Only the first 45 characters of your title can be saved.");
-                	title=llGetSubString(title, 0,44);
-                	}
+                    llOwnerSay("Only the first 45 characters of your title can be saved.");
+                    title=llGetSubString(title, 0,44);
+                    }
                 postSetting("title",title);
                 llMessageLinked(LINK_THIS,6501,right(message," "),NULL_KEY);
             } else if (message=="trans") {
@@ -505,41 +506,41 @@ state running {
                 postSetting("showgm","0");  
             
             } else if (left(msg," ") == "rpname") {
-            	rpname = llStringTrim(right(message," "), STRING_TRIM);
-            	postSetting("RPNAME",rpname);
-            	llMessageLinked(LINK_THIS, 1, "RPNAME|" + rpname, NULL_KEY);
-            	llOwnerSay("Your roleplay name in this sim has been set to " + rpname);
+                rpname = llStringTrim(right(message," "), STRING_TRIM);
+                postSetting("RPNAME",rpname);
+                llMessageLinked(LINK_THIS, 1, "RPNAME|" + rpname, NULL_KEY);
+                llOwnerSay("Your roleplay name in this sim has been set to " + rpname);
             } else if (msg == "clearname") {
-            	rpname = "";
-            	postSetting("rpname","NULL");
-            	llMessageLinked(LINK_THIS, 1, "RPNAME|NULL", NULL_KEY);
-            	llOwnerSay("Your roleplay name in this sim has been cleared");	
-        	} else if (left(msg," ") == "dice") {
+                rpname = "";
+                postSetting("rpname","NULL");
+                llMessageLinked(LINK_THIS, 1, "RPNAME|NULL", NULL_KEY);
+                llOwnerSay("Your roleplay name in this sim has been cleared");    
+            } else if (left(msg," ") == "dice") {
                 integer numsides = (integer)right(msg, " ");
                 if (numsides <= 1) { numsides = 20; }
                 llSay(0, currName() + " rolls a " + (string)numsides + " sided dice, and gets a " + dice(numsides));
             } else if (msg == "debug") {
-            	llOwnerSay("Debugging Mode Now On");
-            	llMessageLinked(LINK_THIS, 9797, "", NULL_KEY);	
+                llOwnerSay("Debugging Mode Now On");
+                llMessageLinked(LINK_THIS, 9797, "", NULL_KEY);    
             } else if (left(msg," ") == "rpsay") {
-            		string tempname = llGetObjectName();
+                    string tempname = llGetObjectName();
                     llSetObjectName(currName());
                     llSay(0,right(message," "));
-                    llSetObjectName(tempname);		
+                    llSetObjectName(tempname);        
             } else if (left(msg," ") == "rpemote") {
-            		string tempname = llGetObjectName();
+                    string tempname = llGetObjectName();
                     llSetObjectName("");
                     llSay(0,"/me " + right(message," "));
-                    llSetObjectName(tempname);		
+                    llSetObjectName(tempname);        
             } else if (msg=="skills") {
-            	llMessageLinked(LINK_THIS, 14, "",NULL_KEY);	
+                llMessageLinked(LINK_THIS, 14, "",NULL_KEY);    
             }
         } else if (channel == -39485739 && llGetOwnerKey(id) == me) {
             checkHudListener(id, message);
         } else if (channel == -39485739 && llGetOwnerKey(id) != me) {
-			if (left(message, "|")=="X")  { // this is an xp drop
-				llMessageLinked(LINK_THIS, 3333,left(decrypt(right(message, "|")),"|"), id);   	
-			}
+            if (left(message, "|")=="X")  { // this is an xp drop
+                llMessageLinked(LINK_THIS, 3333,left(decrypt(right(message, "|")),"|"), id);       
+            }
         } else if (channel == tempChannel && id == me) {
             if (~llListFindList(["F2","F3","F4","F5","F6","F7"],[message])) {
                 currentkey = message;
@@ -565,7 +566,7 @@ state running {
         } else if (channel == tempChannel && status==4 && id == lasthit) { // we're captured, and this is the captor responding to dialog
             llListenRemove(templistener);
             if (llToLower(message)=="kill") {
-            		llShout(0, currName() + " has been defeated by " + llKey2Name(lasthit));	
+                    llShout(0, currName() + " has been defeated by " + llKey2Name(lasthit));    
                     llMessageLinked(LINK_THIS, 7350, "", lasthit);
                     setStatus(5);
                     sendToHud("RESET");
@@ -605,14 +606,14 @@ state running {
                 llRegionSay(atkchannel,msg);
             }
         } else if (num == 6504) { // this is an xp drop
-        	string msg = crypt(str+"|"+(string)(llGetUnixTime()*2)+(string)llFrand(2500000));
-        	llSay(-39485739, "X|" + msg);
+            string msg = crypt(str+"|"+(string)(llGetUnixTime()*2)+(string)llFrand(2500000));
+            llSay(-39485739, "X|" + msg);
         } else if (num == 9998) { //9998 - health status announcements
             health = (integer)str;
             if (health < 1) {
                 if (status == 0) {
                     if (capon==0) {
-                    	llShout(0,currName() + " has been defeated by " + llKey2Name(lasthit));
+                        llShout(0,currName() + " has been defeated by " + llKey2Name(lasthit));
                         sendToHud("RESET");
                         llMessageLinked(LINK_THIS, 7350, "", lasthit);
                         setStatus(5);
@@ -621,7 +622,7 @@ state running {
                         if (tourn==1) {llMessageLinked(LINK_THIS, 9930, "175", NULL_KEY);}
                         
                     } else if (capon==1) {
-                    	llShout(0,currName() + " has been captured by " + llKey2Name(lasthit));
+                        llShout(0,currName() + " has been captured by " + llKey2Name(lasthit));
                         setStatus(4);
                         llSetTimerEvent(captime);
                         llStartAnimation("Bound");

@@ -11,12 +11,12 @@ integer templistener;
 
 
 // CHALLENGE/AUTHENTICATION
-string secureKey="blah";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="more blah";
+string myKey="Fq4KBr/BA4HJ7r41S9DqUcC1qrE=";
 createSecurePass()
 {
-  securePass="something";   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str)
 {
@@ -68,11 +68,11 @@ integer like(string value,string mask){
     return FALSE;
 }
 clearpeople() {
-	people = [];
-	peoplenames = [];
+    people = [];
+    peoplenames = [];
 }
 checkPeople(key n){
-	llSensor("",NULL_KEY,AGENT,30.0,PI);
+    llSensor("",NULL_KEY,AGENT,30.0,PI);
     string name;
     if (llStringLength(llKey2Name(n)) > 23) {
         name = llGetSubString(llKey2Name(n),0,23);
@@ -83,8 +83,8 @@ checkPeople(key n){
     peoplenames += [name];
 }
 setTargetByName(string n){
-	llSensor("",NULL_KEY,AGENT,30.0,PI);
-	llSleep(0.5);
+    llSensor("",NULL_KEY,AGENT,30.0,PI);
+    llSleep(0.5);
     target = NULL_KEY;
     integer l = llGetListLength(people);
     integer x;
@@ -112,24 +112,24 @@ setTarget() {
     llDialog(me,"\nPlease select your target:",menulist,-94832638);
 }
 setTargetName(string n){
-	llSensor("",NULL_KEY,AGENT,30.0,PI);
-	llSleep(0.5);
-	if (llToLower(n) == llToLower("self")) {
+    llSensor("",NULL_KEY,AGENT,30.0,PI);
+    llSleep(0.5);
+    if (llToLower(n) == llToLower("self")) {
         llMessageLinked(LINK_THIS,9950,"TARGET",me);
         target = me;
     } else {
-    	integer l = llGetListLength(people);
-    	integer x;
-    	while ((x < l)) {
-	        if ((llKey2Name(llList2String(people,x)) == n)) {
-            	(target = llList2String(people,x));
-        	}
-        	++x;
-    	}
-    	if (target) {
-	        llMessageLinked(LINK_THIS,9950,"TARGET",target); //9950 - Commands passed by the player
-	    }
-	}
+        integer l = llGetListLength(people);
+        integer x;
+        while ((x < l)) {
+            if ((llKey2Name(llList2String(people,x)) == n)) {
+                (target = llList2String(people,x));
+            }
+            ++x;
+        }
+        if (target) {
+            llMessageLinked(LINK_THIS,9950,"TARGET",target); //9950 - Commands passed by the player
+        }
+    }
 }
 
 default {
@@ -138,91 +138,91 @@ default {
         myName=llKey2Name(me);
     }
     link_message(integer sender_num, integer num, string str, key id) { 
-		if (num==8000) {
-			receiveChallenge(str);
-		}
-		else if (num==4000) {
-			templistener=llListen(-94832638,"",me,"");
-		    targetFlag=1;
+        if (num==8000) {
+            receiveChallenge(str);
+        }
+        else if (num==4000) {
+            templistener=llListen(-94832638,"",me,"");
+            targetFlag=1;
             llSensor("",NULL_KEY,AGENT,30.0,PI);
-		}
-		else if (num==4001) {
-			skillToTargetFlag=1; llSensor("",NULL_KEY,AGENT,30.0,PI); tempcmd=str;	
-		}
-		else if (num==4002) {
-			setTargetByName(str);	
-		}
+        }
+        else if (num==4001) {
+            skillToTargetFlag=1; llSensor("",NULL_KEY,AGENT,30.0,PI); tempcmd=str;    
+        }
+        else if (num==4002) {
+            setTargetByName(str);    
+        }
     }
     listen(integer channel,string name,key id,string message) { 
-    	if (channel == -94832638 && id == me) {
-        	llSensor("",NULL_KEY,AGENT,45.0,PI);
-        	llSleep(0.5);
+        if (channel == -94832638 && id == me) {
+            llSensor("",NULL_KEY,AGENT,45.0,PI);
+            llSleep(0.5);
             if (~llListFindList(peoplenames,[message])) setTargetName(message);
             llListenRemove(templistener);
         }
     }
     sensor(integer num_detected) {
-    	if (skillToTargetFlag==0) {
-	    	listTime = llGetUnixTime();
-	        clearpeople();
-	        integer x;
-	        while (x < num_detected) {
-	            checkPeople(llDetectedKey(x));
-	            ++x;
-	        }
-	        peoplenames += "SELF";
-	        if (targetFlag==1) {
-	        	targetFlag=0;
-	        	setTarget();
-	        }
-    	} else if (skillToTargetFlag==1) {
-    		listTime = llGetUnixTime();
-	        clearpeople();
-	        integer x;
-	        while (x < num_detected) {
-	            checkPeople(llDetectedKey(x));
-	            ++x;
-	        }
-    		string cmd = left(tempcmd," ");
-			string name = right(tempcmd," ");
-			key newtarget;
-		    if (llToLower(name) == "self") {
-		        newtarget=me;
-		    } else {
-		        integer l = llGetListLength(people);
-		        x=0;
-		        while ((x < l)) {
-		            if (like(llToLower(llKey2Name(llList2String(people,x))),llToLower((name + "%")))) {
-		                (newtarget = llList2String(people,x));
-		            }
-		            ++x;
-		        }
-		    }
-		    if (newtarget) {
-		        llMessageLinked(LINK_THIS,9950,cmd,newtarget);
-		    } else {
-		        llOwnerSay(("Unable to set target name " + name));
-		    }
-		    skillToTargetFlag=0;
-		    tempcmd="";
-		    clearpeople();
-    	}
+        if (skillToTargetFlag==0) {
+            listTime = llGetUnixTime();
+            clearpeople();
+            integer x;
+            while (x < num_detected) {
+                checkPeople(llDetectedKey(x));
+                ++x;
+            }
+            peoplenames += "SELF";
+            if (targetFlag==1) {
+                targetFlag=0;
+                setTarget();
+            }
+        } else if (skillToTargetFlag==1) {
+            listTime = llGetUnixTime();
+            clearpeople();
+            integer x;
+            while (x < num_detected) {
+                checkPeople(llDetectedKey(x));
+                ++x;
+            }
+            string cmd = left(tempcmd," ");
+            string name = right(tempcmd," ");
+            key newtarget;
+            if (llToLower(name) == "self") {
+                newtarget=me;
+            } else {
+                integer l = llGetListLength(people);
+                x=0;
+                while ((x < l)) {
+                    if (like(llToLower(llKey2Name(llList2String(people,x))),llToLower((name + "%")))) {
+                        (newtarget = llList2String(people,x));
+                    }
+                    ++x;
+                }
+            }
+            if (newtarget) {
+                llMessageLinked(LINK_THIS,9950,cmd,newtarget);
+            } else {
+                llOwnerSay(("Unable to set target name " + name));
+            }
+            skillToTargetFlag=0;
+            tempcmd="";
+            clearpeople();
+        }
     }
     no_sensor() {
-    	if (skillToTargetFlag==0) {
-	        clearpeople();
-	        peoplenames += "SELF";
-			if (targetFlag==1) {
-	        	targetFlag=0;        
-	        	setTarget();
-			}
-    	}
-		else if (skillToTargetFlag==1) {
-			clearpeople();
-			if (llToLower(right(tempcmd," ")) == "self") {
-				llMessageLinked(LINK_THIS,9950,left(tempcmd," "),me);
-			}
-			skillToTargetFlag=0;	
-		}
+        if (skillToTargetFlag==0) {
+            clearpeople();
+            peoplenames += "SELF";
+            if (targetFlag==1) {
+                targetFlag=0;        
+                setTarget();
+            }
+        }
+        else if (skillToTargetFlag==1) {
+            clearpeople();
+            if (llToLower(right(tempcmd," ")) == "self") {
+                llMessageLinked(LINK_THIS,9950,left(tempcmd," "),me);
+            }
+            skillToTargetFlag=0;    
+        }
     }
 }

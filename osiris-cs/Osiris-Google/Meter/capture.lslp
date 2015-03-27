@@ -1,12 +1,12 @@
 // CHALLENGE/AUTHENTICATION
-string secureKey="something";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="something else";
+string myKey="B6asJOaeX/EplA2tVwWK4mmBYSM=";
 string randCheck;
 
 createSecurePass()
 {
-  securePass="something";   
+  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str)
 {

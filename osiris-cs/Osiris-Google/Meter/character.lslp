@@ -1,31 +1,31 @@
-string 		RegionName;
-integer 	tick;
-integer 	base_strength;
-integer 	base_intelligence;
-integer 	base_wisdom;
-integer 	base_constitution;
-integer 	base_dexterity;
-integer 	strength;
-integer 	intelligence;
-integer 	constitution;
-integer 	dexterity;
-integer 	wisdom;
-key 		source;
-integer 	dmg;
-integer 	DOTcount;
-integer		buffduration;
-string 		secureKey = "something";
-string 		securePass;
-string 		myKey = "something else";
-string 		randCheck;
-integer 	H_REGEN;
-integer 	S_REGEN;
-integer		lastTick; //When was XP last ticked
-integer		setAFK; //When was the afk entered
-string 		cryptPass(string str){
+string         RegionName;
+integer     tick;
+integer     base_strength;
+integer     base_intelligence;
+integer     base_wisdom;
+integer     base_constitution;
+integer     base_dexterity;
+integer     strength;
+integer     intelligence;
+integer     constitution;
+integer     dexterity;
+integer     wisdom;
+key         source;
+integer     dmg;
+integer     DOTcount;
+integer        buffduration;
+string         secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
+string         securePass;
+string         myKey = "w9pf+ZL1iGkZKwFNV2vUyKArhAs=";
+string         randCheck;
+integer     H_REGEN;
+integer     S_REGEN;
+integer        lastTick; //When was XP last ticked
+integer        setAFK; //When was the afk entered
+string         cryptPass(string str){
     return llXorBase64StringsCorrect(llStringToBase64(str),llStringToBase64(securePass));
 }
-string 		decryptPass(string str){
+string         decryptPass(string str){
     return llBase64ToString(llXorBase64StringsCorrect(str,llStringToBase64(securePass)));
 }
 setDotCount(integer x){
@@ -78,7 +78,7 @@ setRandCheck()
 
 createSecurePass()
 {
-    securePass = "something";
+    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 
 receiveChallenge(string msg)
@@ -114,7 +114,7 @@ setH_REGEN(integer n)
 
 setS_REGEN(integer n)
 {
-	(S_REGEN = n);
+    (S_REGEN = n);
 }
 
 string left(string src,string divider)
@@ -172,14 +172,14 @@ doDOT(integer d,key s)
 
 doBuff(string stat,integer amount,integer duration) // Example: SC||10||20
 {
-	buffduration = duration;
+    buffduration = duration;
     integer numstats = llStringLength(stat);
     if (numstats > 0)
     {
         integer i;
         do
         {
-        	string effected = llGetSubString(stat,(i - 1),(i - 1));
+            string effected = llGetSubString(stat,(i - 1),(i - 1));
             if (effected == "S")
             {
                 setstrength(base_strength + amount);
@@ -207,12 +207,12 @@ doBuff(string stat,integer amount,integer duration) // Example: SC||10||20
             ++i;
          if (amount > 0)
          {
-         	llMessageLinked(LINK_THIS, 99350, "buffed", "");
+             llMessageLinked(LINK_THIS, 99350, "buffed", "");
          }
          else
          if (amount < 0)
          {
-         	llMessageLinked(LINK_THIS, 99350, "debuffed","");
+             llMessageLinked(LINK_THIS, 99350, "debuffed","");
          }
         }
         while (i < numstats);
@@ -282,7 +282,7 @@ default
             string value = right(str,"|");
             if (loadparam == "CONFIG")
             {
-            	setRegion(right(str,"|"));
+                setRegion(right(str,"|"));
             }
             else
             if (loadparam == "LOADCOMPLETE")
@@ -349,16 +349,16 @@ default
         else
         if (num == 7)
         {
-        	if ((integer)str == 98 || (integer)str == 97)
-        	{
-        		setAFK = llGetUnixTime()-lastTick;
-        	}
-        	else
-        	if ((integer)str == 0 && setAFK != 0)
-        	{
-        		lastTick = (llGetUnixTime()-setAFK);
-        		setAFK = 0;
-        	}
+            if ((integer)str == 98 || (integer)str == 97)
+            {
+                setAFK = llGetUnixTime()-lastTick;
+            }
+            else
+            if ((integer)str == 0 && setAFK != 0)
+            {
+                lastTick = (llGetUnixTime()-setAFK);
+                setAFK = 0;
+            }
         }
     }
     
@@ -369,8 +369,8 @@ default
         
         if (llGetUnixTime() > lastTick)
         {
-        	llMessageLinked(-4,0,"DOTICK",NULL_KEY);
-        	lastTick = llGetUnixTime() + tick;
+            llMessageLinked(-4,0,"DOTICK",NULL_KEY);
+            lastTick = llGetUnixTime() + tick;
         }
         
         if (DOTcount)

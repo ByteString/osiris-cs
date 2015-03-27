@@ -4,9 +4,9 @@
 // CMD|Heal|CSAY|NULL|CSND|0|DMG|10|HIDE|0|PARTDUR|1|POOL|S|POOLAMT|32|RANGE|10|RDYCONSENT|1|SANIM|0|SCMD|Heal|SDEF|W|SNAME|Heal|SOFF|W|SPART|0|STAT|C|STATAMT|1|STATDUR|30|STYPE|3|VANIM|0|VPART|0|VPARTDUR|1|VSAY|%d feels better|VSND|0|
 
 // CHALLENGE/AUTHENTICATION
-string secureKey="something";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
 string securePass;
-string myKey="something else";
+string myKey="4iew46WYYgmLtlbmcrwDZt8lnAY=";
 string randCheck;
 integer ragetime;
 integer ragedecrementtime;
@@ -19,7 +19,7 @@ setRandCheck()
 }
 createSecurePass()
 {
-     
+     securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
 }
 string cryptPass (string str)
 {
@@ -57,18 +57,18 @@ key target;
 // Function to divide to prevent math errors
 float d(float this, float with)
 {
-	if (this <= 0 || with <= 0)
-		return 0;
-	else
-		return this/with;
+    if (this <= 0 || with <= 0)
+        return 0;
+    else
+        return this/with;
 }
 
 integer di(integer this, integer with)
 {
-	if (this <= 0 || with <= 0)
-		return 0;
-	else
-		return this/with;
+    if (this <= 0 || with <= 0)
+        return 0;
+    else
+        return this/with;
 }
 
 // the following helps figure out how to parse the list of powers
@@ -89,19 +89,19 @@ updateskills(list s)
     string effect;
     if (stat != "NULL" && statamt > 0) effect="(Buff)";
     else if (stat != "NULL" && statamt < 0) effect="(Weaken)";
-	llMessageLinked(LINK_THIS, 13, (string)llGetListLength(commands), NULL_KEY);
+    llMessageLinked(LINK_THIS, 13, (string)llGetListLength(commands), NULL_KEY);
     skills+= ["CMD"] + ["CMD"+cmd] + s;
     llMessageLinked(LINK_THIS,9960,llList2CSV(commands), NULL_KEY); 
     // integer freemem=llGetFreeMemory();
    // if (freemem < 6000) llOwnerSay("api: " + (string)freemem + " bytes free.");
 }
 listskills() {
-	integer x=0;
-	while (x < llGetListLength(commands)) {
-		llOwnerSay(llList2String(commands, x));
-		x++;	
-	}
-	llOwnerSay("Further information about each command is available by accessing your character at http://www.osiris-sl.com");
+    integer x=0;
+    while (x < llGetListLength(commands)) {
+        llOwnerSay(llList2String(commands, x));
+        x++;    
+    }
+    llOwnerSay("Further information about each command is available by accessing your character at http://www.osiris-sl.com");
 }
 sendToHud(string str)
 {
@@ -126,10 +126,10 @@ setTargetKey(key n)
 {
   target=n; 
   if (target != llGetOwner()) {
-  	llOwnerSay("Target set to " + llKey2Name(target));
+      llOwnerSay("Target set to " + llKey2Name(target));
   }
   else {
-  	llOwnerSay("Target set to SELF");
+      llOwnerSay("Target set to SELF");
   }
 }
 // SET SPECIAL REGEN OPTIONS
@@ -229,32 +229,32 @@ default
         // hit announcements
         else if (num==9981)
         {
-        	if (SPECIAL_TYPE=="R" && llGetUnixTime() > ragedecrementtime)
+            if (SPECIAL_TYPE=="R" && llGetUnixTime() > ragedecrementtime)
             {
-            	if (SP > 0)  {
-            		SP -= 1;
-            		ragedecrementtime = llGetUnixTime()+rage_drain;
-            		float SP_PERCENT= d((float)SP, (float)SP_BASE * 100); // Using d to prevent math errors
-        			announceSPPercent(SP_PERCENT);   
-        			announceSP(SP);
-            	}
+                if (SP > 0)  {
+                    SP -= 1;
+                    ragedecrementtime = llGetUnixTime()+rage_drain;
+                    float SP_PERCENT= d((float)SP, (float)SP_BASE * 100); // Using d to prevent math errors
+                    announceSPPercent(SP_PERCENT);   
+                    announceSP(SP);
+                }
             } 
         }
         else if (num==9920)
         {
-        	
+            
             if (SPECIAL_TYPE=="R" && llGetUnixTime() > ragetime)
             {
-            	//llOwnerSay("got rage " + (string)ragetime);
-            	ragetime=llGetUnixTime()+rage_throttle;
-            	//llOwnerSay("rage throttle: " + (string)rage_throttle);
-            	//llOwnerSay("new rage time: " + (string)ragetime);
+                //llOwnerSay("got rage " + (string)ragetime);
+                ragetime=llGetUnixTime()+rage_throttle;
+                //llOwnerSay("rage throttle: " + (string)rage_throttle);
+                //llOwnerSay("new rage time: " + (string)ragetime);
                 tickSP(SP_REGEN);
             }     
         } 
         else if (num==14)
         {
-        	listskills();	
+            listskills();    
         }
         else if (num==12) 
         {
@@ -262,17 +262,17 @@ default
             sendToHud("SPECIAL|" + (string)SP);
         } 
         else if (num == 10001) { //Get the health from RAM still strange...
-        	list check = llParseString2List(str,["|"],[]);
-        	SP=(llList2Integer(check,3));
-        	ragedecrementtime = llGetUnixTime()+rage_drain;
+            list check = llParseString2List(str,["|"],[]);
+            SP=(llList2Integer(check,3));
+            ragedecrementtime = llGetUnixTime()+rage_drain;
             float SP_PERCENT= (integer)d((float)SP, SP_BASE)*100; //Using d to prevent math errors
-        	announceSPPercent(SP_PERCENT);   
-        	announceSP(SP);
+            announceSPPercent(SP_PERCENT);   
+            announceSP(SP);
         }
         // updates from dataloader come on 1
         else if (num==1)
         {
-        	//llOwnerSay(str);
+            //llOwnerSay(str);
             // set type of special
             if (left(str, "|") == "SPECIAL_TYPE")
             {
@@ -296,12 +296,12 @@ default
                 updateskills(s);
             }
             else if (left(str, "|") == "RAGE_THROTTLE") {
-            	rage_throttle=(integer)right(str, "|");
-            	//llOwnerSay("rage throttle: " + (string)rage_throttle);
+                rage_throttle=(integer)right(str, "|");
+                //llOwnerSay("rage throttle: " + (string)rage_throttle);
             }
-			else if (left(str, "|") == "RAGE_DRAIN") {
-				rage_drain=(integer)right(str, "|");
-			}
+            else if (left(str, "|") == "RAGE_DRAIN") {
+                rage_drain=(integer)right(str, "|");
+            }
         }
         else if (num==8000) {receiveChallenge(str);} 
         // commands from the player

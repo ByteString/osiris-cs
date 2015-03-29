@@ -1,3 +1,22 @@
+string scriptName = "dmgHandler";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
+string myKey="qbhhpMn/LwlKmCcNeCFX8MQiQOY=";
+string securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
+string cryptPass (string str) {return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));}
+string decryptPass (string str) {return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));}
+string right(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);return src;}
+string left(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, index, -1);return src;}
+string randCheck() { return (string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);}
+receiveChallenge(string msg) {
+    string message=decryptPass(msg);
+    string source=left(message, "|");
+    string sourceKey=right(message, "||");
+    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
+    if (source=="security" && sourceKey==secureKey) {
+        string response= scriptName + "|"+ randCheck() + "||" + myKey;
+        llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
+    }
+}
 integer debug=0;
 integer health=100;
 integer maxhealth=100;
@@ -19,9 +38,6 @@ integer targetID; // used by the targeting system
 integer listener;
 integer reflectstate;
 integer reflectend;
-string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
-string securePass;
-string myKey="qbhhpMn/LwlKmCcNeCFX8MQiQOY=";
 string hitType;
 string v_GRP; // this is the racial vulnerabilities group
 integer blockAOE; // is AOE API blocked in this sim?
@@ -49,37 +65,7 @@ integer di(integer this, integer with)
         return this/with;
 }
 
-createSecurePass()
-{
-  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
-}
-string cryptPass (string str)
-{
-    return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));
-}
-string decryptPass (string str)
-{
-    return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));
-}
-string randCheck;
-setRandCheck()
-{
-    randCheck=(string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);
-}
-receiveChallenge(string msg)
-{
-    createSecurePass();
-    setRandCheck(); // sets a random string of numbers in the middle of the message to jump things up
-    string message=decryptPass(msg);
-    string source=left(message, "|");
-    string sourceKey=right(message, "||");
-    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
-    if (source=="security" && sourceKey==secureKey)
-        {
-            string response="dmgHandler|"+ randCheck + "||" + myKey;
-            llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
-        }
-}
+
 //  COMMUNICATION AND ENCRYPTION FUNCTIONS
 setpass(string k)
 {
@@ -173,23 +159,6 @@ setMeleeRate(float sec)
 {
     meleerate=sec;
 }
-
-string right(string src, string divider)
-{
-    integer index = llSubStringIndex( src, divider );
-    if(~index)
-        return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);
-    return src;
-}
-
-string left(string src, string divider)
-{
-    integer index = llSubStringIndex( src, divider );
-    if(~index)
-        return llDeleteSubString( src, index, -1);
-    return src;
-}
-
 string str_replace(string src, string from, string to)
 {
     integer len = (~-(llStringLength(from)));

@@ -1,11 +1,27 @@
+string scriptName = "melee";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
+string myKey = "yCk5SZIxjcYtSzbHormFS2H2Kdc=";
+string securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
+string cryptPass (string str) {return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));}
+string decryptPass (string str) {return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));}
+string right(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);return src;}
+string left(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, index, -1);return src;}
+string randCheck() { return (string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);}
+receiveChallenge(string msg) {
+    string message=decryptPass(msg);
+    string source=left(message, "|");
+    string sourceKey=right(message, "||");
+    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
+    if (source=="security" && sourceKey==secureKey) {
+        string response= scriptName + "|"+ randCheck() + "||" + myKey;
+        llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
+    }
+}
+
 string strength;
 float stuntime;
 key target; // AV key of the in range target  
-integer movewhiledead;  
-string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
-string securePass;
-string myKey = "yCk5SZIxjcYtSzbHormFS2H2Kdc=";
-string randCheck;
+integer movewhiledead;
 key me; // key of the owner of the meter
 string myName; // name of the owner of the meter
 integer status;
@@ -17,30 +33,7 @@ integer numCheck;
 integer attackstatus=1;
 
 //////////////////////// authentication stuff //////////////////////////
-setRandCheck() {
-    randCheck=(string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);
-}
-createSecurePass() {
-  securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
-}
-string cryptPass (string str) {
-    return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));
-}
-string decryptPass (string str) {
-    return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));
-}
-receiveChallenge(string msg){
-    createSecurePass();
-    setRandCheck();
-    string message = decryptPass(msg);
-    string source = left(message,"|");
-    string sourceKey = right(message,"||");
-    (securePass = right(left(message,"||"),"|"));
-    if (((source == "security") && (sourceKey == secureKey))) {
-        string response = ((("melee|" + randCheck) + "||") + myKey);
-        llMessageLinked(LINK_THIS,8001,cryptPass(response),NULL_KEY);
-    }
-}
+
 //////////////////// end authentication /////////////////////////
 
 SetAPICMD(string str) {
@@ -75,16 +68,6 @@ setParam(string parameter,string value){
     if (parameter == "MOVEWHILEDEAD") {
         movewhiledead = (integer)value;
     }
-}
-string left(string src,string divider){
-    integer index = llSubStringIndex(src,divider);
-    if ((~index)) return llDeleteSubString(src,index,(-1));
-    return src;
-}
-string right(string src,string divider){
-    integer index = llSubStringIndex(src,divider);
-    if ((~index)) return llDeleteSubString(src,0,((index + llStringLength(divider)) - 1));
-    return src;
 }
 string str_replace(string src,string from,string to){
     integer len = (~(-llStringLength(from)));

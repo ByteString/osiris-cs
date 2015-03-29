@@ -1,52 +1,36 @@
+string scriptName = "API";
+string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
+string myKey="4iew46WYYgmLtlbmcrwDZt8lnAY=";
+string securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
+string cryptPass (string str) {return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));}
+string decryptPass (string str) {return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));}
+string right(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);return src;}
+string left(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, index, -1);return src;}
+string randCheck() { return (string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);}
+receiveChallenge(string msg) {
+    string message=decryptPass(msg);
+    string source=left(message, "|");
+    string sourceKey=right(message, "||");
+    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
+    if (source=="security" && sourceKey==secureKey) {
+        string response= scriptName + "|"+ randCheck() + "||" + myKey;
+        llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
+    }
+}
+
+integer ragetime;
+integer ragedecrementtime;
+integer rage_throttle;
+integer rage_drain;
+
+
+
 //syntax for incoming special stat message: SPECIAL_TYPE|T|SP_NAME|Courage|SP_REGEN|30
 
 //syntax for skills
 // CMD|Heal|CSAY|NULL|CSND|0|DMG|10|HIDE|0|PARTDUR|1|POOL|S|POOLAMT|32|RANGE|10|RDYCONSENT|1|SANIM|0|SCMD|Heal|SDEF|W|SNAME|Heal|SOFF|W|SPART|0|STAT|C|STATAMT|1|STATDUR|30|STYPE|3|VANIM|0|VPART|0|VPARTDUR|1|VSAY|%d feels better|VSND|0|
 
 // CHALLENGE/AUTHENTICATION
-string secureKey="7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
-string securePass;
-string myKey="4iew46WYYgmLtlbmcrwDZt8lnAY=";
-string randCheck;
-integer ragetime;
-integer ragedecrementtime;
-integer rage_throttle;
-integer rage_drain;
-
-setRandCheck()
-{
-    randCheck=(string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);
-}
-createSecurePass()
-{
-     securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
-}
-string cryptPass (string str)
-{
-    return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));
-}
-string decryptPass (string str)
-{
-    return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));
-}
-receiveChallenge(string msg)
-{
-    createSecurePass();
-    setRandCheck(); // sets a random string of numbers in the middle of the message to jump things up
-    string message=decryptPass(msg);
-    string source=left(message, "|");
-    string sourceKey=right(message, "||");
-    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
-    if (source=="security" && sourceKey==secureKey)
-        {
-            string response="API|"+ randCheck + "||" + myKey;
-            llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
-        }
-}
-
-// end security stuff
-
-
 
 string SPECIAL_TYPE;
 integer SP_REGEN;
@@ -168,19 +152,6 @@ announceSP(float num)
     llMessageLinked(-4,10000,"SAVESIMDATA",NULL_KEY); //Send special to RAM
 }
 //  TEXT FUNCTIONS
-string left(string src, string divider) {
-    integer index = llSubStringIndex( src, divider );
-    if(~index)
-        return llDeleteSubString( src, index, -1);
-    return src;
-}
-
-string right(string src, string divider) {
-    integer index = llSubStringIndex( src, divider );
-    if(~index)
-        return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);
-    return src;
-}
 string strReplace(string str, string search, string replace) {
     return llDumpList2String(llParseStringKeepNulls((str = "") + str, [search], []), replace);
 }

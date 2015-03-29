@@ -1,21 +1,39 @@
-// LSL script generated: Sat May 16 14:28:44 EDT 2009
-list    domains = [""];
-list    domainDesc = [""];
+string scriptName = "dataloader";
+string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
+string securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
+string myKey = "1oKFeS6qsGdHEmKRn/g2SSCoZXs=";
+string cryptPass (string str) {return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));}
+string decryptPass (string str) {return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));}
+string right(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);return src;}
+string left(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, index, -1);return src;}
+string randCheck() { return (string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);}
+receiveChallenge(string msg) {
+    string message=decryptPass(msg);
+    string source=left(message, "|");
+    string sourceKey=right(message, "||");
+    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
+    if (source=="security" && sourceKey==secureKey) {
+        string response= scriptName + "|"+ randCheck() + "||" + myKey;
+        llMessageLinked(LINK_THIS, 8001, cryptPass(response), NULL_KEY);   
+    }
+}
+list    domains = ["sl.rpcombat.com"];
+list    domainDesc = ["RPCOMBAT"];
 integer    dIndex = 0;
 
 key colleen = "aa3457ab-3f55-4341-ae89-2a9c2baaa452";
 string version="0.84";
 string ConfigURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/load.cfm";
 }
 string SimPassURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/simpass.cfm";
 }
 string CharURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/getchar.cfm";
 }
 string CheckRegionURL()
 {
@@ -23,15 +41,15 @@ string CheckRegionURL()
 }
 string tickURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/tick67.cfm";
 }
 string skillURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/getSkill.cfm";
 }
 string CharSettingsURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/getCharSettings.cfm";
 }
 string killURL()
 {
@@ -39,7 +57,7 @@ string killURL()
 }
 string regURL()
 {
-    return "http://" + llList2String(domains, dIndex) + "/";
+    return "http://" + llList2String(domains, dIndex) + "/APIPlayerCheck.cfm";
 }
 
 string RegionName;
@@ -57,12 +75,9 @@ integer charactersettings_received = 0;
 list skills;
 integer currentskill = -1;
 integer totalskills;
-string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
-string securePass;
-string myKey = "1oKFeS6qsGdHEmKRn/g2SSCoZXs=";
+
 key me;
 integer tourn;
-string randCheck;
 integer numLoaded; //Just a counter of skills loaded
 integer status; // 0 = normal, 
                 // 1 = noncombative; 
@@ -92,36 +107,6 @@ setStatus(integer num)
     else if (status == 0)
     {
         //llOwnerSay("Activating...");
-    }
-}
-createSecurePass()
-{
-    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
-}
-string cryptPass(string str)
-{
-    return llXorBase64StringsCorrect(llStringToBase64(str),llStringToBase64(securePass));
-}
-string decryptPass(string str)
-{
-    return llBase64ToString(llXorBase64StringsCorrect(str,llStringToBase64(securePass)));
-}
-setRandCheck()
-{
-    randCheck = (string)llFrand(1.410065407e9) + (string)llFrand(1.410065407e9);
-}
-receiveChallenge(string msg)
-{
-    createSecurePass();
-    setRandCheck();
-    string message = decryptPass(msg);
-    string source = left(message,"|");
-    string sourceKey = right(message,"||");
-    securePass = right(left(message,"||"),"|");
-    if (source == "security" && sourceKey == secureKey)
-    {
-        string response = "dataloader|" + randCheck + "||" + myKey;
-        llMessageLinked(-4,8001,cryptPass(response),NULL_KEY);
     }
 }
 disable()
@@ -207,18 +192,6 @@ getSkills(list skilllist){
 setRegion(string name)
 {
     RegionName = name;
-}
-string left(string src,string divider)
-{
-    integer index = llSubStringIndex(src,divider);
-    if (~index) return llDeleteSubString(src,index,-1);
-    return src;
-}
-string right(string src,string divider)
-{
-    integer index = llSubStringIndex(src,divider);
-    if (~index) return llDeleteSubString(src,0,((index + llStringLength(divider)) - 1));
-    return src;
 }
 integer checkComplete()
 {

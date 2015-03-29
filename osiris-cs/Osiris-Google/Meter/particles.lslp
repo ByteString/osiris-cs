@@ -1,7 +1,23 @@
+string scriptName = "particles";
 string secureKey = "7yxpZa2Rfq/wG/LRGidWJCy8BAw=";
-string securePass;
 string myKey = "7TnnlqVbsNdgkYbQA6BZQOr+ZL8=";
-string randCheck;
+string securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
+string cryptPass (string str) {return llXorBase64StringsCorrect(llStringToBase64(str), llStringToBase64(securePass));}
+string decryptPass (string str) {return llBase64ToString(llXorBase64StringsCorrect(str, llStringToBase64(securePass)));}
+string right(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);return src;}
+string left(string src, string divider){integer index = llSubStringIndex( src, divider );if(~index)return llDeleteSubString( src, index, -1);return src;}
+string randCheck() { return (string)llFrand(9999999999.0)+ (string)llFrand(9999999999.0);}
+receiveChallenge(string msg) {
+    string message=decryptPass(msg);
+    string source=left(message, "|");
+    string sourceKey=right(message, "||");
+    securePass=right(left(message,"||"),"|"); // this line changes the initial password to the one received from security
+    if (source=="security" && sourceKey==secureKey) {
+        string response= scriptName + "|"+ randCheck() + "||" + myKey;
+        llMessageLinked(LINK_ROOT, 8001, cryptPass(response), NULL_KEY);   
+    }
+}
+
 integer index;
 float dura;
 
@@ -31,31 +47,6 @@ list effectsList = [
 "Flame3 - TARGET", "6316b42a-e5b1-eb97-78d7-183c930f7154", <0.25, 0.25, 0.0>, <0.25, 0.5, 0.0>, <1.0,0.5,0.0>, <1.0,0.9,0.0>, 4, 
 "Lightening - ELEVATOR", "e70ba87c-0c6b-b59e-ea3e-4eb5433ef592", <0.25, 0.25, 0.0>, <0.35, 0.35, 0.0>, <1.0,1.0,0.5>, <1.0,1.0,0.99>, 2
     ];
-
-createSecurePass(){
-    securePass = "WHGlPsm5HyMjoTSF5S0VXmKF0C8=";
-}
-string cryptPass(string str){
-    return llXorBase64StringsCorrect(llStringToBase64(str),llStringToBase64(securePass));
-}
-string decryptPass(string str){
-    return llBase64ToString(llXorBase64StringsCorrect(str,llStringToBase64(securePass)));
-}
-setRandCheck(){
-    (randCheck = (((string)llFrand(1.410065407e9)) + ((string)llFrand(1.410065407e9))));
-}
-receiveChallenge(string msg){
-    createSecurePass();
-    setRandCheck();
-    string message = decryptPass(msg);
-    string source = left(message,"|");
-    string sourceKey = right(message,"||");
-    (securePass = right(left(message,"||"),"|"));
-    if (((source == "security") && (sourceKey == secureKey))) {
-        string response = ((("particles|" + randCheck) + "||") + myKey);
-        llMessageLinked(LINK_SET,8001,cryptPass(response),NULL_KEY);
-    }
-}
 
 startParticle(integer spriteIndex ,float duration, key spellTarget) {
     //llOwnerSay((string)spriteIndex);
@@ -146,20 +137,6 @@ startParticle(integer spriteIndex ,float duration, key spellTarget) {
     llParticleSystem([PSYS_SRC_TEXTURE, spriteKey, PSYS_SRC_TARGET_KEY, target, PSYS_PART_START_SCALE, startSize, PSYS_PART_END_SCALE, endSize, PSYS_PART_START_COLOR, startColour, PSYS_PART_END_COLOR, endColour, PSYS_PART_START_ALPHA, startAlpha, PSYS_PART_END_ALPHA, endAlpha, PSYS_PART_MAX_AGE, maxAge, PSYS_SRC_BURST_PART_COUNT, 5, PSYS_SRC_BURST_RATE,  burstRate, PSYS_SRC_BURST_RADIUS, burstRadius, PSYS_SRC_MAX_AGE, 0.0, PSYS_SRC_PATTERN, pattern, PSYS_SRC_ACCEL, accel, PSYS_SRC_BURST_SPEED_MIN, 0.01, PSYS_SRC_BURST_SPEED_MAX, 0.2, PSYS_SRC_ANGLE_BEGIN, beginAngle, PSYS_SRC_ANGLE_END, endAngle, PSYS_SRC_OMEGA, omega, PSYS_PART_FLAGS, flags]);
     if (duration < 1) duration = 1;
     llSetTimerEvent(duration);
-}
-
-string left(string src,string divider)
-{
-    integer index = llSubStringIndex(src,divider);
-    if (~index) return llDeleteSubString(src,index,-1);
-    return src;
-}
-
-string right(string src,string divider)
-{
-    integer index = llSubStringIndex(src,divider);
-    if (~index) return llDeleteSubString(src,0,((index + llStringLength(divider)) - 1));
-    return src;
 }
 default {
     state_entry()
